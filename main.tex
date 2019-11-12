@@ -17,27 +17,12 @@
 
 % bibliography
 \usepackage[backend=biber, citestyle=authoryear]{biblatex}
-\addbibresource{acfs.bib}
+%\addbibresource{acfs.bib}
 
 
 % margins
 \usepackage[margin=1.05in]{geometry}
 
-%new commands
-\newcommand{\ances}{AN_{A}^{\mathcal{G}}}
-\newcommand{\anc}{\mathbf{AN}^{\mathcal{G}}}
-\newcommand{\dec}{\mathbf{DE}^{\mathcal{G}}}
-\newcommand{\dsep}{\text{ \textit{d}-sep }}
-\newcommand{\dseperation}{\text{ \textit{d}-seperation}}
-\newcommand{\nodes}{\mathbf{V}}
-\newcommand{\parents}{\mathbf{PA}^{\mathcal{G}}}
-\newcommand{\parentsNew}{\mathbf{PA}^{\mathcal{G^{*}}}}
-\newcommand{\summ}{\frac{1}{n}\sum_{i=1}^{n}}
-
-
-\newcommand{\children}{\mathbf{CH}^{\mathcal{G}}}
-
-\newcommand{\graph}{\mathfrak{C}}
 \newcommand{\E}{\mathbb{E}}
 \newcommand{\std}{\mathbf{std}}
 \newcommand{\R}{\mathbb{R}}
@@ -98,7 +83,7 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{0.25cm}
 
-\title{Stock Picking In An Environment Of Structural Breaks}
+\title{The Effect of Kids on Labour Supply}
 \author{Jeppe Søndergaard Johansen (pcv439)}
 \date{August 2019}
 
@@ -108,10 +93,10 @@
 
 \includepdf[pages={1}]{frontpage/frontpage.pdf}
 
+
 \maketitle
 
-
-\input{chapters/abstract.tex}
+%\input{chapters/abstract.tex}
 
 \pagebreak
 
@@ -120,28 +105,7 @@
 \pagebreak
 
 \input{chapters/introduction.tex}
-
-\input{chapters/data.tex}
-
-\input{chapters/model.tex}
-
-\input{chapters/simulation.tex}
-
-\input{chapters/algorithms.tex}
-
-\input{chapters/analysis.tex}
-
-\input{chapters/discusion.tex}
-
-\input{chapters/conclusion.tex}
-
-
-
-\newpage
-\printbibliography
-
-\newpage
-\input{chapters/appendix.tex}
-
+\input{chapters/model1.tex}
+\input{chapters/model2.tex}
 
 \end{document}
