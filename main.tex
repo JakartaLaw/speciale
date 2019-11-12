@@ -19,6 +19,12 @@
 \usepackage[backend=biber, citestyle=authoryear]{biblatex}
 %\addbibresource{acfs.bib}
 
+% functions
+
+\newcommand{\quickcharcount}[1]{%
+  \immediate\write18{texcount -1 -sum -merge -char -q #1.tex output.bbl > #1-chars.sum }%
+  \input{#1-chars.sum} characters (not including spaces)%
+}
 
 % margins
 \usepackage[margin=1.05in]{geometry}
@@ -59,8 +65,6 @@
 \newcommand{\independent}{\perp\mkern-9.5mu\perp}
 \newcommand{\notindependent}{\centernot{\independent}}
 
-%%%%% INDEPENDENT SIGN END %%%%%
-
 \newcommand{\X}{\mathbf{X}}
 \newcommand{\Ls}{\mathbf{L}}
 \newcommand{\D}{\mathbf{D}}
@@ -85,16 +89,20 @@
 
 \title{The Effect of Kids on Labour Supply}
 \author{Jeppe Søndergaard Johansen (pcv439)}
-\date{August 2019}
+\date{May 2020}
 
 \makeindex
 
+
 \begin{document}
+
 
 \includepdf[pages={1}]{frontpage/frontpage.pdf}
 
 
 \maketitle
+
+Number of characters: \quickcharcount{main}
 
 %\input{chapters/abstract.tex}
 
