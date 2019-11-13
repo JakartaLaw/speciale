@@ -1,6 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1573574668 "frontpage.tex" "frontpage.pdf" "frontpage" 1573574670
-  "./frontpage.out" 1573574669 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1573636381 "frontpage.tex" "frontpage.pdf" "frontpage" 1573636382
+  "../name" 1573635788 56 0cd2281e404d8ad659b6dcf20893d619 ""
+  "./frontpage.out" 1573636382 0 d41d8cd98f00b204e9800998ecf8427e ""
   "./samf-farve.pdf" 1567089875 25981 12b02019c5bae33e155c8f8f4216037c ""
   "./samf_1-en.pdf" 1567089860 7305 ff2d7c9db68920b5a365dbc7917ceaf0 ""
   "/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -72,13 +73,13 @@
   "/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1432479641 1764542 91654ba72bdb667e84ea24f076ae16d8 ""
   "/usr/local/texlive/2015/texmf-var/web2c/pdftex/pdflatex.fmt" 1439386184 3849859 e7cbefc51b2ea5b676eba0348a1ea0bb ""
   "/usr/local/texlive/2015/texmf.cnf" 1432479636 577 0d611272082f3cdb8e80e09a3c69cf07 ""
-  "frontpage.aux" 1573574669 820 216720548cc94a3cd20e55599f446dbd ""
-  "frontpage.out" 1573574669 0 d41d8cd98f00b204e9800998ecf8427e ""
-  "frontpage.tex" 1573574628 1808 74302f1a4f414a3929ac2b3b33ff5781 ""
+  "frontpage.aux" 1573636382 820 216720548cc94a3cd20e55599f446dbd ""
+  "frontpage.out" 1573636382 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "frontpage.tex" 1573636380 1788 ecf0d875a4022dba76a131290f67eac7 ""
   "samf-farve.pdf" 1567089875 25981 12b02019c5bae33e155c8f8f4216037c ""
   "samf_1-en.pdf" 1567089860 7305 ff2d7c9db68920b5a365dbc7917ceaf0 ""
   (generated)
+  "frontpage.out"
   "frontpage.log"
   "frontpage.aux"
   "frontpage.pdf"
-  "frontpage.out"
