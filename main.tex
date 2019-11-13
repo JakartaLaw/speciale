@@ -21,25 +21,16 @@
 
 % functions
 
-\newcommand{\quickcharcount}[1]{%
-  \immediate\write18{texcount -1 -sum -merge -char -q #1.tex output.bbl > #1-chars.sum }%
-  \input{#1-chars.sum} characters (not including spaces)%
+\newcommand{\quickwordcount}[1]{%
+  \immediate\write18{texcount -1 -sum -merge -q #1.tex output.bbl > #1-words.sum }%
+  \input{#1-words.sum}%
 }
 
-% margins
-\usepackage[margin=1.05in]{geometry}
+\newcommand{\quickcharcount}[1]{%
+  \immediate\write18{texcount -1 -sum -merge -char -q #1.tex output.bbl > #1-chars.sum }%
+  \input{#1-chars.sum}(not including spaces)%
+}
 
-\newcommand{\E}{\mathbb{E}}
-\newcommand{\std}{\mathbf{std}}
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\G}{\mathcal{G}}
-\newcommand{\lra}{\Leftrightarrow}
-
-\newcommand{\la}{\leftarrow}
-\newcommand{\ra}{\rightarrow}
-
-\newcommand{\rp}{\right)}
-\newcommand{\lp}{\left(}
 
 %%%% INDEPDENT SIGN %%%%
 
@@ -65,29 +56,31 @@
 \newcommand{\independent}{\perp\mkern-9.5mu\perp}
 \newcommand{\notindependent}{\centernot{\independent}}
 
-\newcommand{\X}{\mathbf{X}}
-\newcommand{\Ls}{\mathbf{L}}
-\newcommand{\D}{\mathbf{D}}
-\newcommand{\W}{\mathbf{W}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\std}{\mathbf{std}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\lra}{\Leftrightarrow}
 
-\newcommand{\x}{\mathbf{x}}
-\newcommand{\ls}{\mathbf{l}}
-\newcommand{\ds}{\mathbf{d}}
-\newcommand{\w}{\mathbf{w}}
+\newcommand{\la}{\leftarrow}
+\newcommand{\ra}{\rightarrow}
 
-\newcommand{\rr}{\mathbf{r}}
-\newcommand{\RR}{\mathbf{R}}
+\newcommand{\rp}{\right)}
+\newcommand{\lp}{\left(}
 
 \newcommand{\ones}{\mathbf{1}}
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
+% Margins and paragraph indent etc (layout)
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{0.25cm}
+\usepackage[margin=1.05in]{geometry}
 
-\title{The Effect of Kids on Labour Supply}
+
+% About Data
+\title{\input{name}}
 \author{Jeppe Søndergaard Johansen (pcv439)}
 \date{May 2020}
 
@@ -103,6 +96,8 @@
 \maketitle
 
 Number of characters: \quickcharcount{main}
+
+Number of spaces: \quickwordcount{main}
 
 %\input{chapters/abstract.tex}
 
