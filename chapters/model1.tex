@@ -1,3 +1,62 @@
 \section{Model}
 
-This will be where the simple model will be.
+\begin{equation}
+    \textbf{State space } (M, W, K, Q) = \R^{2} \times \{0, 1, 2, 3, 4, 5\} \times \N^{+}
+\end{equation}
+
+\begin{equation}
+    \textbf{Action space } (H) = \{0, 15, 25, 37, 45\}
+\end{equation}
+
+The state $M$ represents Cash-on-hand, the sum of assets and salary. $W$ is the wage level. $K$ is the number of kids and $Q$ is the age of the agent. In this formulation time $(t)$ and age $(Q)$ are explicitely modelled separately, such to clearly separate what is a function of age and what is a function of time. f.x. The wage level is modelled to follow a certain pattern as a function of age, not of time. Importantly for solving the model, I do not need to integrate out the age since it's perfectly deterministic. The action space contains a single discrete variable $H$ that denotes the number of working hours.
+
+
+Model dynamics:
+
+\begin{align}
+    U_t (C_t, L_t, \alpha_t) &= C_t^{1-\alpha_t}L_t^{\alpha_t} \label{eq:utility_v1}\\
+    \alpha_t (K_t) &= f^{\alpha}(K_t) \label{eq:alpha_v1}\\
+    A_t (M_t, C_t) &= M_t - C_t \label{eq:assets_v1}\\
+    Y_t ( H_t, W_t) &= H_t \cdot W_t \label{eq:salary_v1}\\
+    C_t (A_t) &= \kappa \cdot A_t \label{eq:consumption_v1}\\
+    L_t(H_t) &= 7 \cdot 24 - H_t \label{eq:leisure_v1}\\
+\end{align}
+
+Law of motion (transitionsligninger XXX):
+
+\begin{align}
+    M_{t+1}(A_t, Y_{t+1}) &= \rho_{t+1} \cdot A_t + Y_{t+1}, \qquad \rho_{t+1} \sim \ndist(\mu_{\rho}, \sigma_{\rho}) \label{eq:cash_on_hand_v1} \\
+    K_{t+1} (K_t) &= K_t + \gamma_{t+1}, \qquad \gamma_{t+1} \sim Bernoulli(p_{\gamma}) \label{eq:kids_v1}\\
+    W_{t+1} (Q_{t+1}, W_{t}) &= f^{W}(Q_{t+1}) \cdot W_t \cdot \epsilon_{t+1} \qquad \log (\epsilon_{t+1} ) \sim \ndist(0, \sigma_{\epsilon}) \label{eq:wage_v1}\\
+    Q_{t+1} (Q_t)&= Q_t + 1 \label{eq:age_v1}
+\end{align}
+
+Other variables in the model are: Utility as modelled in equation \eqref{eq:utility_v1} that follow the Cobb-Douglas formulation. Equation \eqref{eq:alpha_v1} denotes the utility dynamic of having kids. Later the functional form of $f^{\alpha}$ is discussed. The assets are modelled as described in equation \eqref{eq:assets_v1} as the Cash-on-Hand minus the consumption. Equation \eqref{eq:salary_v1} models salary as being the product of the number of working hours and the wage level. \eqref{eq:leisure_v1} shows leisure being the total number of hours in a week - minus the number of hours worked.
+
+4 equations govern the law of motion: Equation \eqref{eq:cash_on_hand_v1} governs how the assets in period $t$ grows with a normally distribution return, adding the salary of period $t+1$. Equation \eqref{eq:kids_v1} denotes the growth of children. The wage level is governed by equation \eqref{eq:wage_v1}. Where it's assumed that both age level and the previous period has influence on the wage level. Equation \eqref{eq:age_v1} shows how the age of the agent.
+
+Finally two functions in the formulation should be clearly explicited: $f^{\alpha}, f^{W}$. Starting with $f^{\alpha}$ a couple of things should be noted, about how the function should behave. First and foremost:
+
+\begin{equation}
+    f^{\alpha}: \N_{0,+} \mapsto [0,1]
+\end{equation}
+
+This is due to the fact that the utility function is of the Cobb-Douglas formulation, where the $\alpha$ parameter should be contained in the interval [0,1]. Second it should be noted that it should not be perfectly determined whether or not:
+
+\begin{equation}
+    \frac{d}{d K}f^{\alpha} > 0 \qquad \textbf{or} \frac{d}{d K}f^{\alpha} < 0
+\end{equation}
+
+Therefore the formulation:
+
+\begin{equation}
+    f^{\alpha} (K_t)= a + b \frac{\exp{c + d K_t}}{1 + \exp{c + d K_t}}\qquad  \text{s.t. } a + b < 1, a \land b > 0
+\end{equation}
+
+The function $f^{W}$ is not parametric, and determined by data from Dansk Statistik XXX.
+
+
+Parameters of the model being: $\kappa, \mu_\rho, \sigma_\rho, p_\gamma, \sigma_\epsilon$. and $a, b, c, d$, where the latter govern the dynamic of the utility of leisure conditioned on the number of kids. $\kappa$ governs the consumption profile, $\mu_\rho$ denotes the expected return of the assets, $\sigma_\rho$ the variance. $p_\gamma$ is the probability of a new child. $\sigma_{\epsilon}$ is the variance (before the log transformation) of the log-normal shock to the income process.
+
+
+\textbf{MULIGE UDVIDELSER}: 1) function for $p_\gamma (Q_t, K_t)$. 
