@@ -3,11 +3,11 @@
 As described in the section XXX, I first try to solve the model by Value Function iteration:
 
 \begin{equation}
-    \E_{t}[V_{t+1}(M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1})] = \int_{\epsilon_{t+1}}  \int_{\rho_{t+1}} \int_{\gamma_{t+1}} V_{t+1} (M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1}) d \gamma_{t+1} d\rho_{t+1}  d \epsilon_{t+1}
+    \E_{t}[V_{t+1}(M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1})] = \int_{\epsilon_{t}}  \int_{\rho_{t}} \int_{\psi_{t}} V_{t+1} (M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1}) d \psi_{t} d\rho_{t}  d \epsilon_{t}
 \end{equation}
 
 Using Gauss-Hermite integration two integrate out the normal and log-normal shocks. The discrete state space of the number of children.
 
 \begin{equation}
-    \E_{t}[V_{t+1}(M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1})] =  \sum_{i=1}^{N_{GH}} \sum_{j=1}^{N_{GH}} \sum_{k=1}^{2} w_{i}^{\epsilon} w_j^{\rho} w_{k}^{\gamma}   V_{t+1} (M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1}) 
+    \E_{t}[V_{t+1}(M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1})] =  \sum_{i=1}^{N_{GH}} \sum_{j=1}^{N_{GH}} \sum_{k=0}^{1} w_{i}^{\epsilon} w_j^{\rho} w_{k}^{\psi}   V_{t+1} (M_{t+1}, W_{t+1}, K_{t+1}, Q_{t+1}) 
 \end{equation}    
