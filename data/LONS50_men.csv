@@ -1,0 +1,29 @@
+"Løn efter køn, lønkomponenter, lønmodtagergruppe, aflønningsform, tid,"
+"alder og sektor"
+
+" ";" ";" ";" ";" ";" ";"Sektorer i alt";"Offentlig forvaltning og service";"Stat (inklusiv sociale kasser og fonde)";"Kommuner og regioner i alt";"Regioner";"Kommuner";"Virksomheder og organisationer"
+"Mænd"
+" ";"FORTJENESTE PR. PRÆSTERET TIME"
+" ";" ";"Lønmodtagergrupper i alt"
+" ";" ";" ";"Timelønnede"
+" ";" ";" ";" ";"2018"
+" ";" ";" ";" ";" ";"Under 20 år";125.95;195.47;..;198.25;..;199.38;124.66
+" ";" ";" ";" ";" ";"20-24 år";202.54;205.59;177.23;208.02;196.50;209.18;202.41
+" ";" ";" ";" ";" ";"25-29 år";238.36;214.31;197.64;217.60;219.16;217.33;238.83
+" ";" ";" ";" ";" ";"30-34 år";250.23;226.16;205.09;230.52;..;230.24;250.48
+" ";" ";" ";" ";" ";"35-39 år";258.14;229.13;..;237.72;..;235.83;258.35
+" ";" ";" ";" ";" ";"40-44 år";263.03;237.35;..;245.16;..;236.50;263.21
+" ";" ";" ";" ";" ";"45-49 år";265.47;237.99;195.30;250.59;..;242.71;265.68
+" ";" ";" ";" ";" ";"50-54 år";262.06;228.57;194.60;244.58;..;237.94;262.33
+" ";" ";" ";" ";" ";"55-59 år";258.16;231.27;198.26;254.56;..;248.05;258.42
+" ";" ";" ";" ";" ";"60 år og derover";250.69;230.44;193.76;253.38;260.78;250.95;251.05
+
+"Der er i forbindelse med offentliggørelsen d. 16. september 2016 "
+"udført revisioner af dele af statistikken for 2013-2014. Der er lavet "
+"en ændring i den måde feriebetalingerne pr. præsteret time bliver "
+"præsenteret på, hvor den særlige feriegodtgørelsen fremover er en del "
+"af de samlede feriebetalinger pr. præsteret time. Samtidigt er det "
+"muligt at se, hvor meget af feriebetalingerne, som er den særlige "
+"feriegodtgørelse for de fastlønnede. Rettelsen gælder for alle "
+"sektorer. "
+
