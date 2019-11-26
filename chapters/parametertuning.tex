@@ -2,10 +2,37 @@
 
 \subsection{Wage parameters}
 
+Jeg har brugt lons20 til at finde en distribution af lønnen, på tværs af alder.
+Jeg har brugt lons50 til at finde trenden for lønniveauet betinget på alderen.
+
+Jeg vil bruge dette data til at tune parametrene som styrer løn-niveau processen i modellen.
+
 \begin{table}[ht]
     \centering
     \input{tables/wage_variation_moments.tex}
-    \caption{Wage moments}
+    \caption{Wage distribution moments}
     \label{tab:my_label}
 \end{table}
 
+
+\begin{table}[ht]
+    \centering
+    \input{tables/wage_variation_summary.tex}
+    \caption{Wage distribution summary}
+    \label{tab:my_label}
+\end{table}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{figures/wage_distribution_lons20.png}
+    \caption{Wage distribution men \& women}
+    \label{fig:my_label}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{figures/wage_trend_lons50.png}
+    \caption{Wage trend men \& women}
+    \label{fig:my_label}
+\end{figure}
