@@ -27,8 +27,7 @@ The states of the agent evolves the following way: $Q_t$ evolves deterministcall
     U_t(K_t, L_t, Y_t) &= \beta_K \ln(K_t) + \beta_L \ln(L_t) + \beta_Y \ln(Y_t) \\
     W_t(S_t, H_t) &=S_t \cdot H_t \\
     S_t(Z_t, G_t) &= \min(\zeta, (\zeta + Z_t + G_t))  \\
-    Y_t(W_t, M_t) &= W_t + M_t\\
-    M_t(Q_t) &= f^M(Q_t) \\
+    Y_t(W_t, M_t) &= W_t + f^M(Q_t)\\
 \end{align}
 
 
