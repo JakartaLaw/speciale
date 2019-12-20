@@ -1,12 +1,13 @@
 \section{Tuning of parameters}
 
-\subsection{Wage parameters}
+løn parametre
 
 Jeg har brugt lons20 til at finde en distribution af lønnen, på tværs af alder.
 Jeg har brugt lons50 til at finde trenden for lønniveauet betinget på alderen.
 
 Jeg vil bruge dette data til at tune parametrene som styrer løn-niveau processen i modellen.
 
+\iffalse
 \begin{table}[ht]
     \centering
     \input{tables/wage_variation_moments.tex}
@@ -57,3 +58,26 @@ Jeg vil bruge dette data til at tune parametrene som styrer løn-niveau processe
     \caption{Wealth by age group}
     \label{fig:wealth_by_age_group_empirical}
 \end{figure}
+\fi
+
+\subsection{Tuning the Wage process}
+
+To solve the model i will need some initial reasonable numbers for the parameters of the wage process. The wage process contains the following parameters: $(\eta_G, \eta_{G^2}, \delta, \alpha, \sigma_{\epsilon})$. As mentioned in the model specification in section \ref{sec:model1} i specify a wage process that follow the Mincer earnings equation, where i do not account for education (this is not part of the state space), and where the idiosyncratic wage path is added linearly to the wage. I assume that the parameters driving the wage process are the same for both men and women, and these can be by tuned independent of the entire model. This is primarily due to computational constraint, since tuning multiple parameters in the same time suffers from the \textit{curse of dimensionality}. Another reason is that the wage of the husband in the model is assumed perfectly deterministic, which imply I am not able to tune the parameters driving the wage path under the assumption these are the same for men and women. As mentioned in the model specification allowing for linearly added idiosyncratic wage path that follows a random walk, allows for tuning $(\eta_G, \eta_{G^2}, \delta, \alpha)$ that drives the age and sex specific expected wage level (referred to as \textit{wage path}), while tuning the variance at each point in time can be tuned by $\sigma_\epsilon$ (referred to as \textit{wage variance}). In other words the parameter tuning of the wage process is broken into two phases: First tuning age and sex specific expected wage level, second tuning the variance of the wages.
+
+I tune the wage path by using a \textbf{LONS50}, a data set from Statistics Denmark (Danmarks Statistik Bank). This data set contains the wage trend for men and women at any given age. My objective is to minimize the squared difference between this wage path and a predicted wage path by simulating from the partial model with given parameters and taking the average wage path. Certain things should be noted about this partial model. The wage path is a function of human capital which is the choice variable of the model specified in section \ref{sec:model1}. This obviously makes it problematic to tune the parameters. I work around the problem by using the data set \textbf{LIGEF15} containing the number of worked hours for both men and women, which is supplied by Statistics Denmark. Since these numbers do not take into account people leaving the labour force temporarily - which we know women to do when giving birth. I model this the following way. I assume that women leave the work force for 1 year when giving birth to a child. I use the data set \textbf{FOD33} to get fertility rates of women. Again this data is supplied by Statistics Denmark. Formally this can summed up to:
+
+\begin{equation}
+    H_t = \begin{cases}
+        H^{men}(Q) & \text{if sex=\textit{male}} \\
+        H^{women}(Q) & \text{if sex=\textit{female} and birth=\textit{false}} \\
+        0 & \text{if sex=\textit{female} and birth=\textit{true} }\\
+    \end{cases}    
+\end{equation}
+
+The rest of the wage process follows the model described in section \ref{sec:model1}. The minimization problem follows the following process:
+
+\begin{equation}
+    \underset{\eta_G, \eta_{G^2}, \delta, \alpha}{\argmin} = \frac{1}{2}\frac{1}{(60 - 18)} \lp \sum_{q=18}^{60} \lp w^{men}_{q} - \frac{1}{500}\sum_{n=0}^{500}\tilde{w}^{men}_{n,q} \rp ^2 + \sum_{q=18}^{60} \lp w^{women}_{q} - \frac{1}{500}\sum_{n=0}^{500}\tilde{w}^{women}_{n,q} \rp ^2 \rp
+\end{equation}
+
+where $\tilde{w}_{n, q}$ denotes a simulated wage at age $q$ for the $n'tn$ simulated individual and $w_q$ is the true value wage level for a given age. I solve the minimization problem using Nelder-Mead (Simplex method). Essentially The simplex method allows for numerical optimization without the need to supply neither the gradient, Hessian or Jacobian matrix. I initialize the algorithm with the values: $(\alpha=4, \eta_G = 0.15, \eta_{G^2}=0.1, \delta=0.7)$, and let the algorithm run for a maximum of 100 iterations. 
