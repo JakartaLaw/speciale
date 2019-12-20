@@ -1,4 +1,4 @@
-\section{Model - Exogenous Fertility}
+\section{Model - Exogenous Fertility}\label{sec:model1}
 
 \begin{equation}
     \textbf{State space: }\statespace = \R^{2} \times \{0, 1, 2, 3, 4, 5\} \times \{ 18, 19, \cdots, 70\}
@@ -25,8 +25,9 @@ The states of the agent evolves the following way: $Q_t$ evolves deterministcall
 
 \begin{align}
     U_t(K_t, L_t, Y_t) &= \beta_K \ln(K_t) + \beta_L \ln(L_t) + \beta_Y \ln(Y_t) \\
-    W_t(S_t, H_t) &=S_t \cdot H_t \\
-    S_t(Z_t, G_t) &= \min(\zeta, (\zeta + Z_t + G_t))  \\
+    W_t(S_t, H_t) &= S_t \cdot H_t \\
+    \log \tilde{S}_t (G_t, Z_t) &= \alpha + \eta_G \log(G_t + 1) + \eta_Z \log (Z_t + 1) \\
+    S_t(\tilde{S}_t) &= \max(S_{min} , \tilde{S}_t)  \\
     Y_t(W_t, M_t) &= W_t + f^M(Q_t)\\
 \end{align}
 
@@ -35,15 +36,15 @@ Law of Motion.
 
 \begin{align}
     Q_{t+1}(Q_t) &= Q_t \\
-    K_{t+1}(K_t, Q_t)  &= K_{t} + \psi_t, \qquad \psi_t \sim Bernoulli(p_\psi) \mid Q_t \\
-    Z_{t+1}(Z_t) &= Z_t + \epsilon_t, \qquad \epsilon_t \sim \ndist(0, \sigma_\epsilon) \\
+    K_{t+1}(K_t, Q_t)  &= K_{t} + \psi_t, \qquad \psi_t \mid Q_t \sim Bernoulli(p_\psi(Q_t)) \\
+    \log Z_{t+1}(Z_t) &= \log Z_t + \epsilon_t, \qquad \epsilon_t \sim \ndist(0, \sigma_\epsilon) \\
     G_{t+1}(G_t) &= G_t(1 - \delta) + H_t \\
 \end{align}
 
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=0.1, angle=90]{figures/modeldynamic_tmp_exogenous.jpg}
-    \caption{Model dynamics - Exogenous (TMP)}
-    \label{fig:tmp_modeldynamics_exogenous}
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \includegraphics[scale=0.1, angle=90]{figures/modeldynamic_tmp_exogenous.jpg}
+%    \caption{Model dynamics - Exogenous (TMP)}
+%    \label{fig:tmp_modeldynamics_exogenous}
+%\end{figure}

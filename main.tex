@@ -16,8 +16,8 @@
 \usepackage{pdfpages}
 
 % bibliography
-\usepackage[backend=biber, citestyle=authoryear]{biblatex}
-\addbibresource{speciale.bib}
+%\usepackage[backend=biber, citestyle=authoryear]{biblatex}
+%\addbibresource{speciale.bib}
 
 % functions
 
@@ -66,9 +66,6 @@
 \newcommand{\la}{\leftarrow}
 \newcommand{\ra}{\rightarrow}
 
-\newcommand{\rp}{\right)}
-\newcommand{\lp}{\left(}
-
 \newcommand{\ones}{\mathbf{1}}
 
 \newcommand{\statespace}{\mathcal{S}}
@@ -76,6 +73,15 @@
 
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+
+% paranthesis
+
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+\newcommand{\lsp}{\left[}
+\newcommand{\rsp}{\right]}
+\newcommand{\lcp}{\left\{}
+\newcommand{\rcp}{\right\}}
 
 % Margins and paragraph indent etc (layout)
 
@@ -113,15 +119,16 @@ Number of spaces: \quickwordcount{main}
 \pagebreak
 
 \input{chapters/introduction.tex}
-\input{chapters/litteraturereview.tex}
+% \input{chapters/litteraturereview.tex}
 
 %\input{chapters/model1.tex}
 \input{chapters/model1_exogenous.tex}
-\input{chapters/model1_endogenous.tex}
 
-%\input{chapters/parametertuning.tex}
+%\input{chapters/model1_endogenous.tex}
+
+\input{chapters/parametertuning.tex}
 %\input{chapters/vfisolution.tex}
 %\input{chapters/model2.tex}
 
-\printbibliography
+%\printbibliography
 \end{document}
