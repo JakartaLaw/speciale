@@ -81,3 +81,10 @@ The rest of the wage process follows the model described in section \ref{sec:mod
 \end{equation}
 
 where $\tilde{w}_{n, q}$ denotes a simulated wage at age $q$ for the $n'tn$ simulated individual and $w_q$ is the true value wage level for a given age. I solve the minimization problem using Nelder-Mead (Simplex method). Essentially The simplex method allows for numerical optimization without the need to supply neither the gradient, Hessian or Jacobian matrix. I initialize the algorithm with the values: $(\alpha=4, \eta_G = 0.15, \eta_{G^2}=0.1, \delta=0.7)$, and let the algorithm run for a maximum of 100 iterations. 
+
+\begin{table}[ht]
+    \centering
+    \input{tables/wage_path_parameters_solved.pkl.tex}
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
