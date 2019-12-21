@@ -12,7 +12,7 @@ def to_latex_table(file_name, df, directory=None, index=False, nr_decimals=2):
     df = df.round(nr_decimals)
     if directory is None:
         with open("{}.tex".format(file_name), "w") as tf:
-            tf.write(df.to_latex(index=index))
+            tf.write(df.to_latex(index=index, escape=False))
     else:
         with open("{}//{}.tex".format(directory, file_name), "w") as tf:
-            tf.write(df.to_latex(index=index))
+            tf.write(df.to_latex(index=index, escape=False))
