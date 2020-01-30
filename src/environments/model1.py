@@ -34,7 +34,7 @@ def scale_states(Q, G, K, Z, beta_K, beta_L):
 
     beta_K = (beta_K - beta_K_mean) / beta_K_scale
     beta_L = (beta_L - beta_L_mean) / beta_L_scale
-    return np.array([[Q, G, K, Z, beta_K, beta_L]])
+    return np.array([Q, G, K, Z, beta_K, beta_L])
 
 
 ACTIONS = [0, 25, 37, 45]
@@ -108,6 +108,8 @@ class EnvironmentModel1(InterfaceEnvironment):
         if parameters is not None:
             for key, val in parameters.items():
                 setattr(self, key, val)
+
+        return self.states
 
     def step(self, action, shocks=None, parameters=None):
         """
