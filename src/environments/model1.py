@@ -28,7 +28,7 @@ beta_L_mean, beta_L_scale = (-5 + 5) * 0.5, (5 - (-5)) * 0.5
 
 def scale_states(Q, G, K, Z, beta_K, beta_L):
     Q = (Q - Q_mean) / Q_scale
-    G = (G - Q_mean) / G_scale
+    G = (G - G_mean) / G_scale
     K = (K - K_mean) / K_scale
     Z = (Z - Z_mean) / Z_scale
 
@@ -177,7 +177,10 @@ class EnvironmentModel1(InterfaceEnvironment):
     def calc_M(self):
         # use data (non parametric)
         # return 450000
-        return men_salary_path[self.Q]
+        try:
+            return men_salary_path[self.Q]
+        except:
+            return men_salary_path[int(self.Q)]
 
     def calc_Y(self, W, M):
         return W + M
@@ -217,7 +220,11 @@ class EnvironmentModel1(InterfaceEnvironment):
         return np.random.normal(0, self.sigma_epsilon)
 
     def get_p_psi(self):
-        return fertility_data[self.Q]
+
+        try:
+            return fertility_data[self.Q]
+        except:
+            return fertility_data[int(self.Q)]
 
     def draw_psi(self):
         p_psi = self.get_p_psi()
