@@ -15,9 +15,12 @@
 \usepackage{graphicx}
 \usepackage{pdfpages}
 
+\usepackage{caption}
+\usepackage{subcaption}
+
 % bibliography
-%\usepackage[backend=biber, citestyle=authoryear]{biblatex}
-%\addbibresource{speciale.bib}
+\usepackage[backend=biber, citestyle=authoryear]{biblatex}
+\addbibresource{speciale.bib}
 
 % functions
 
@@ -119,7 +122,7 @@ Number of spaces: \quickwordcount{main}
 \pagebreak
 
 \input{chapters/introduction.tex}
-% \input{chapters/litteraturereview.tex}
+\input{chapters/litteraturereview.tex}
 
 %\input{chapters/model1.tex}
 \input{chapters/model1_exogenous.tex}
@@ -127,8 +130,10 @@ Number of spaces: \quickwordcount{main}
 %\input{chapters/model1_endogenous.tex}
 
 \input{chapters/parametertuning.tex}
-%\input{chapters/vfisolution.tex}
+
+\input{chapters/deepintegration.tex}
+\input{chapters/vfisolution.tex}
 %\input{chapters/model2.tex}
 
-%\printbibliography
+\printbibliography
 \end{document}
