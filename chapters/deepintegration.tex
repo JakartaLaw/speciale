@@ -1,0 +1,33 @@
+\section{Deep Q-Function Iteration}
+
+Deep Q-function iteration lends extends the classic value function iteration. However, value function iteration as discussed does not fare well in high dimensional state space and furthermore it's very computational heavy.
+
+The idea is to approximate the integral by using a statistical method, and in this case Deep Learning (another machine learning method would be equally good). Still implore a backwards induction. Consider $f$ to be a machine learning function, that maps from State Space into $\vert \actionspace \vert$. I.e. For a given point in state space a prediction of the value function is computed for each possible action. This implies the method only is feasible for discrete state space. By trying to reduce the mean squared error between the the true values of the Q-function, and the prediction, the $\E[Q(a, s)]$ can be found, which corresponds to integration as could be done using f.x. Gauss Hermite or Monte Carlo integration.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwResult{Write here the result }
+ Initialize $\tilde{Age} = Age_{max}$\;
+ Initialize empty lists for storing results: $X, Y$\;
+ Initialize memory counter $j=1$\;
+ \While{$\tilde{Age} > Age_{min}$}{
+  Draw $\{s_i\}_{i=1}^{i=N}$, where $s_i \sim \statespace \mid Age=\tilde{Age}$ \;
+  \ForEach{$s_i$}{
+  Create empty array $Z$ of length $\mid \actionspace \mid$\;
+  \eIf{$\tilde{Age}= Age_{max}$}{
+   \ForEach{$a_k \in \actionspace$}{
+    $Z[k] \leftarrow r(s_i, a_k)$ \;
+   }
+   }{
+   \ForEach{$a_k \in \actionspace$}{
+    $Z[k] \leftarrow r(s_i, a_k)$ + $\gamma \underset{a' \in \actionspace}{\max}\lsp \hat{V}(a', s_i') \rsp$\;
+    }
+  }
+  $Y[j] \leftarrow Z, X[j] \leftarrow s_i$\;
+  $j = j + 1$\;
+  }
+  Estimate $\hat{V}$ by training a Deep NN using samples from $X, Y$.
+ }
+ \caption{Deep Q-function iteration solution method}
+\end{algorithm}
+
