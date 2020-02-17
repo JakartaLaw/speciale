@@ -24,10 +24,10 @@ To elaborate the rest of the model variables: $U$ is the utility. Following the 
 The states of the agent evolves the following way: $Q_t$ evolves deterministcally. $K_t$ evolves by with a certain probability and ekstra children is added to the household. This probability is dependent on the age of the women $Q$. The idiosyncratic wage path of the women follows a random walk. The Human capital accumulates with a constant depreciation rate $\delta$. adding the number of working hours last period.
 
 \begin{align}
-    U_t(K_t, L_t, Y_t) &= \beta_K \ln(K_t) + \beta_L \ln(L_t) + \beta_Y \ln(Y_t) \\
+    U_t(K_t, L_t, Y_t) &= \beta_K \ln(K_t) + \beta_L \ln(L_t) + \beta_Y \ln(Y_t) \label{eq:utility_v1}\\
     W_t(S_t, H_t) &= S_t \cdot H_t \\
-    \log \tilde{S}_t (G_t, Z_t) &= \alpha + \eta_G \log(G_t + 1) + \eta_Z \log (Z_t + 1) \\
-    S_t(\tilde{S}_t) &= \max(S_{min} , \tilde{S}_t)  \\
+    \log \tilde{S}_t (G_t, Z_t) &= \alpha + \eta_G G_t + \eta_{G^2} G_t^2 \\
+    S_t(\tilde{S}_t) &= \max(S_{min} , \tilde{S}_t  + Z_t)  \\
     Y_t(W_t, M_t) &= W_t + f^M(Q_t)\\
 \end{align}
 
@@ -37,7 +37,7 @@ Law of Motion.
 \begin{align}
     Q_{t+1}(Q_t) &= Q_t \\
     K_{t+1}(K_t, Q_t)  &= K_{t} + \psi_t, \qquad \psi_t \mid Q_t \sim Bernoulli(p_\psi(Q_t)) \\
-    \log Z_{t+1}(Z_t) &= \log Z_t + \epsilon_t, \qquad \epsilon_t \sim \ndist(0, \sigma_\epsilon) \\
+    Z_{t+1}(Z_t) &= Z_t + \epsilon_t, \qquad \epsilon_t \sim \ndist(0, \sigma_\epsilon) \\
     G_{t+1}(G_t) &= G_t(1 - \delta) + H_t \\
 \end{align}
 
