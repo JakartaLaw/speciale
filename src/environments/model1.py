@@ -39,14 +39,17 @@ def scale_states(Q, G, K, Z, beta_K, beta_L):
 
 ACTIONS = [0, 25, 37, 45]
 
+STATES_MU1 = np.array([Q_mean, G_mean, K_mean, Z_mean, beta_L_mean])
+STATES_SIGMA1 = np.array([Q_scale, G_scale, K_scale, Z_scale, beta_L_scale])
+
 
 def translate_action_model1(a):
     return ACTIONS[a]
 
 
 # values for reward scaler is found by tuning parameters so r_scaled in [-1, 1]
-def reward_scaler_model1(r, beta_K, beta_L):
-    return (r - 13.5 - (beta_K * 0.9) - (beta_L * 8.64)) / 3
+def reward_scaler_model1(r, beta_L):
+    return (r - 13.5 - (beta_L * 8.64)) / 3
 
 
 class EnvironmentModel1(InterfaceEnvironment):
@@ -63,7 +66,7 @@ class EnvironmentModel1(InterfaceEnvironment):
     DEFAULT_Z = 0.0
 
     def __init__(
-        self, sigma_epsilon, S_min, eta_G, eta_G_sq, alpha, delta, beta_K, beta_L
+        self, sigma_epsilon, S_min, eta_G, eta_G_sq, alpha, delta, beta_L, omega
     ):
 
         # parameters
@@ -75,8 +78,8 @@ class EnvironmentModel1(InterfaceEnvironment):
         self.delta = delta
 
         # The parameters that need to be tuned!
-        self.beta_K = beta_K
         self.beta_L = beta_L
+        self.omega = omega
 
         # states
         self.Q = self.DEFAULT_Q
@@ -89,7 +92,7 @@ class EnvironmentModel1(InterfaceEnvironment):
 
     @property
     def states(self):
-        return scale_states(self.Q, self.G, self.K, self.Z, self.beta_K, self.beta_L)
+        return np.array([self.Q, self.G, self.K, self.Z, self.beta_L])
 
     def reset(self, states=None, parameters=None):
         """Expect states given as: (Q, G, K, Z) """
@@ -162,11 +165,7 @@ class EnvironmentModel1(InterfaceEnvironment):
         return self.alpha + self.eta_G * self.G + self.eta_G_sq * self.G ** 2
 
     def calc_U(self, L, Y):
-        u = (
-            self.beta_K * np.log(self.K + 1)
-            + self.beta_L * np.log(L + 1)
-            + np.log(Y + 1)
-        )
+        u = self.beta_L * np.log(L + 1) + np.log(Y + 1)
         if np.isnan(u):
             raise Exception(f"K: {self.K}, L: {L}, Y: {Y}")
         return u
@@ -186,7 +185,7 @@ class EnvironmentModel1(InterfaceEnvironment):
         return W + M
 
     def calc_L(self, hours):
-        return 46 * (7 * 24 - hours)
+        return 46 * (7 * 24 - hours - self.omega * self.K)
 
     def calc_stops(self):
         # stops the model (returns done flag)
