@@ -1,0 +1,15 @@
+\section{Deep Learning}
+
+Deep learning is a subset of machine learning or sometimes referred to as statistical learning. Machine learning essentially is just statistics. However usually in statistics a model is explicitly formulated. A typical example could be linear regression. The covariates is decided on, an tweaked such that they fit the model. The linear regression will yield a parameter vector which can then be interpreted. And this interpretation is usually the focus - parameter inference. Example: Does an increase in the minimum salary have a negative effect on BNP pr. capita. Machine Learning focuses on prediction. That is, we want to predict some target conditional on some covariates. And the specific model is not necessarily important. Instead a focus on Out-Of-Sample error is the focus. Deep learning which is used in the algorithm presented in this paper is in fact just layered non linear functions. These functions could f.x.  be sigmoid, tanh or rectified linear units. Using the chain-rule the deep learning algorithm can be used for numerical optimization using a gradient descent algorithm. The Objective function in this case is the loss-function i.e. the function that measures how well the algorithm perform.
+
+\begin{equation}
+    \frac{\partial}{\partial\theta} \Loss = \frac{\partial}{\partial\theta} \lp \sum \ell_i \rp = \frac{\partial}{\partial\theta} \lp \sum \lp \hat{Y}_i  - Y_i \rp^2 \rp = \frac{\partial}{\partial\theta} \lp \sum \lp f^{\theta}(X_i)  - Y_i \rp^2 \rp
+\end{equation}
+
+\subsection{Historical overview}
+
+\subsection{Theoretical considerations}
+
+
+
+
