@@ -29,10 +29,43 @@ The idea is to approximate the integral by using a statistical method, and in th
   Estimate $\hat{Q}$ by training a Deep NN using samples from $X, Y$.
  }
  \caption{Deep Q-function iteration solution method}
- 
+ \end{algorithm}
+
 Since i use a deep neural network to approximate the $Q$-function, certain things need to be considered. First and foremost I need to consider the architecture of the network. Next I need to consider the train
 
-For each age i draw 20.000 random samples. This is because any smaller number of draw seemed to be detrimental to the performance. This is inline with standard Deep Learning practices. These kinds of network is known to be very data hungry. When training the network i draw a random sample of 50.000 observations. If I have not yet accumulated 50.000 observations the algorithm draws all observations. The architecture of network is fairly simple being a two-layer fully connected network. First layer being 16 nodes wide, second fully connected layer being 8 nodes wide. I found that mini batching, did not seem to work well on this particular task, and instead i train on all observations, using a validation split of 30 \%, training for a maximum of 150 epochs and finally i allow for early stopping, that is, when the validation loss is not furthering decreasing i stop the training of the network. I do allow the algorithm a patience of 5. Implying that the algorithm will try to lower it's validation loss for five additional epochs before terminating the training.
+For each age i draw 20.000 random samples. This is because any smaller number of draw seemed to be detrimental to the performance. This is inline with standard Deep Learning practices. These kinds of network is known to be very data hungry. When training the network i draw a random sample of 100.000 observations. If I have not yet accumulated 100.000 observations the algorithm draws all observations. The architecture of network is fairly simple being a two-layer fully connected network. First layer being 16 nodes wide, second fully connected layer being 8 nodes wide. I found that mini batching, did not seem to work well on this particular task, and instead i train on all observations, using a validation split of 30 \%, training for a maximum of 150 epochs and finally i allow for early stopping, that is, when the validation loss is not furthering decreasing i stop the training of the network. I do allow the algorithm a patience of 5. Implying that the algorithm will try to lower it's validation loss for five additional epochs before terminating the training.
 
-\end{algorithm}
 
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_2_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:dqi_solution_beta2_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_2_solution_benchmark_variance.png}
+  \caption{Variance of Paths}
+  \label{fig:dqi_solution_beta2_var}
+\end{subfigure}
+    \caption{Deep Q-iteration solution vs. benchmark $(\beta_L = 2)$}
+    \label{fig:dqi_solution_beta2}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_4_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:dqi_solution_beta4_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_4_solution_benchmark_variance.png}
+  \caption{Variance of simulations}
+  \label{fig:dqi_solution_beta4_var}
+\end{subfigure}
+    \caption{Deep Q-iteration solution vs. benchmark $(\beta_L = 4)$}
+    \label{fig:dqi_solution_beta4}
+\end{figure}
