@@ -131,6 +131,8 @@ Figure \ref{fig:sim_wage_vs_empirical_wage} allows for comparing the empirical w
 
 \subsection{Initial parameter values for the utility function}
 
+\iffalse 
+
 SKAL SKRIVES OM!!!
 
 We see in equation \eqref{eq:utility_v1} that drives the utility function three parameters are present: $\beta_K, \beta_L, \beta_Y$. As mentioned i restrict $\beta_Y = 1$ to achieve identification, over the latent variables. Now since it can be computationally heavy to solve the model using simulation and indirect inference, some initial values of $\beta_K, \beta_L$ needs to be found, that will give a reasonable fit to the model when solving. I create an agent that moves in some reasonable fashion to create a initial fit of the model. Again I will stress, that these values are not by any means optimal, they are however a good starting point.
@@ -151,3 +153,5 @@ Now I can write up the optimzation needed to be performed:
 \end{equation}
 
 Where here $N$ denotes the number of simulated agents and $t$ denotes the timestep. $U_{t,i}$ is the utility of a given agent at a given timestep. In other words the optimization problem trying to be solved is:
+
+\fi

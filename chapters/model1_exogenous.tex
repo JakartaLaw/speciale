@@ -1,40 +1,92 @@
-\section{Model - Exogenous Fertility}\label{sec:model1}
+\section{Model specificationn}\label{sec:model1}
+
+This paper models households consisting of a married couple and their eventual children. More specifically the model tries to address what the effect of children is on the labour supply of women. The model consists of 3 components: 1) An income and human capital component, 2) A fertility process, 3) A leisure and utility component. I model the households from age $Q_{min}=18$ to the terminal age $Q_{max} = 60$. Here it should be noted, that I make the simplifying assumption that the husband and wife has the same age and that the couple is married from age $Q=18$. The age evolves in a deterministic fashion, i.e. the household grows one year older for each step in the model:
 
 \begin{equation}
-    \textbf{State space: }\statespace = \R^{2} \times \{0, 1, 2, 3, 4, 5\} \times \{ 18, 19, \cdots, 70\}
+    Q_{t+1} = Q_t + 1
+\end{equation}
+
+For each time step in the model, the agent has to  choose how many hours the woman of the household should supply on a weekly basis. The choice is discreet, and consists of five action values: $H_t \in \{0, 15, 25, 37, 45 \}$. The labour supply of the man in the households is not a choice variable and is therefore considered an exogenous variable.
+
+The income process is modelled to consists of two individual income processes: The husband (determinisic) and the wife. The income process of the wife consists of an idiosyncratic component $Z_t$, which follows a random walk:
+
+\begin{equation}
+    Z_{t+1} = Z_t + \epsilon_t, \qquad \epsilon_t \sim \ndist (0, \sigma_\epsilon)
+\end{equation}
+
+allowing for agents to have heterogeneity owing to the fact that some carrier choices will lead to higher wages, even though you have worked essentially equally long as another person in a different job. Since these job characteristics is unobserved, it's just assumed to be a random walk. The second component of the income process is a human capital component based on the Mincer equation, as described by \textcite{lemieux_mincer_2006}. That is the the log-transformed wage level can be described by the human capital accumulated:
+
+\begin{equation}
+    \log \tilde{W}_t = \alpha + \eta_G G_t + \eta_{G^2} G_t^2
+\end{equation}
+
+A couple of things to note. In the original formulation by \textcite{lemieux_mincer_2006}, the education level is also included. However, due to the lack of availability of such data I am not able to condition on this. Also it should be noted that the state $G_t$ is the human capital accumulated not of the household but of the woman in the household. Finally this equation governs only the wage level of the women (not of the husband), for whom the wage level and the supplied number of hours is considered exogenous. The exogenous wage level of the husband is found using the data set \textbf{LONS50} from Statistics Denmark. And the number of supplied hours for the husband is found using the data set \textbf{LIGEF15}, again supplied by Statistics Denmark. The wage level, however will be capped at the minimum wage if it the sum of the two components $\tilde{W}_t + Z_t$ is not above the the minimum wage $W_{min} = 120$: 
+
+\begin{equation}
+    W_t = \max ( W_{min}, \tilde{W} + Z_t)
+\end{equation}
+
+The human capital accumulation process, follows a formulation allowing for depreciation:
+
+\begin{equation}
+    G_{t+1} = G_t (1-\delta)  + \frac{1}{37} H_t 
+\end{equation}
+
+where 37 being the standard number of hours worked in Denmark. The total income $Y_t$ of the household can now be formulated as:
+
+\begin{equation}
+    Y_t = 46 \cdot W_t \cdot H_t + f^M(Q_t)
+\end{equation}
+
+where $f^M$ represents the income from the husband as a function a function of age. And $46 \cdot W_t \cdot H_t$ is the number of supplied hours ($H_t$) pr. week times the number of weeks (46) in a year for the average person on the labour market times the wage level ($W_t$). The income process is a function of the number of supplied working hours and the states $(Q_t, Z_t, G_t)$, the age governing the income process of the husband,  $Z_t$ (the idiosyncratic wage level) and $G_t$ (The human capital) governs the income process of the wife. The parameters $\delta, \sigma_\epsilon, \eta_G, \eta_{G^{2}}$ will be calibrated in a later section.
+
+The second component of the model is the fertility process. The fertility is assumed to be exogenous in this formulation, depending on the age of the household. This can summed up into the equation:
+
+\begin{equation}
+    K_{t+1} = K_t+ \psi_t, \qquad \psi_t \mid Q_t \sim Bernoulli (p_\psi(Q_t))
+\end{equation}
+
+$K_t$ is the number of children in the household. The household is assumed to start with $K_t = 0$ at age $Q=18$. At each step with probability $p_\psi(Q_t)$ the wife gives birth to a child. Allowing for the accumulation of children. There is assumed no mortality of the children. The number of children is capped at 5 in the model. The probability $p_\psi(Q_t)$ is modelled using data from Statistics Denmark using the data set \textbf{FOD33}. The number of children $K_t$ is part of the state space. 
+
+The third component of the model is the utility and leisure component. The agent is assumed to get utility from leisure $(L_t)$ and consumption $Y_t$. Notice that saving is not part of this model - the entire income process is assumed to be consumed in the same period. The utility $U_t$ is given by:
+
+\begin{equation}
+    U_t = \beta_L \ln(L_t + 1) + \beta_Y \ln(Y_t + 1)
+\end{equation}
+
+Following the formulation of \textcite{adda_career_2011}, dividing the utility into sub-utility functions, where each sub-utility function allows for curvature by specifying a constant relative risk-averse (CRRA) function for each sub-utility. Assuming the special case of $\ln(\cdot)$. The parameters $\beta_L, \beta_Y$ is the individual weighing of the different sub-utilities. Note that for identification I will restrict $\beta_Y= 1$. The number of hours leisure the agent gets through out the year follows: 
+
+\begin{equation}
+    L_t = 46 \lp \lp 24 \cdot 7 \rp - \omega \cdot K_t - H_t \rp
+\end{equation}
+
+Following \textcite{firestone_estimation_1988}, \textcite{thrane_men_2000} and \textcite{ekert-jaffe_time_2015} I assume that some of the time spent with kids can be considered work, allowing for the $-\omega \cdot K_t$ being the number of hours on a weekly basis used on children. I let $\omega=3.5$ be the time spent of extra house work pr. children each week a number taken from \textcite{ekert-jaffe_time_2015}. The weekly number of hours supplied to the labour market $H_t$ is also subtracted from the total amount of leisure. The number of hours is aggregated to annual level subtracting 6 weeks for holiday. To conclude $\beta_L$ will be a parameter estimated to give the best fit of the model
+
+Summarizing the model; the model contains 4 states: $(G)$ human capital, $(Z)$ the idiosyncratic wage path, $(K)$ the number of children in the household and lastly $(Q)$ age. The action taken in each period $(H)$ is the number of hours supplied to labour by the women on an weekly basis, assumed to be discreet. Other important variables are: $(W)$ the wage level, $(\tilde{W})$ the human capital dependent wage level,  $(U)$ the utility and $(L)$ leisure. Formally this imply:
+
+\begin{equation}
+    \textbf{State space: }\statespace = \R^{2} \times \{0, 1, 2, 3, 4, 5\} \times \{ 18, 19, \cdots, 60\}
 \end{equation}
 
 \begin{equation}
-    \textbf{Action space: }\actionspace  = 46 \cdot \{0, 15, 25, 37, 45\} 
+    \textbf{Action space: }\actionspace  = \{0, 15, 25, 37, 45\} 
 \end{equation}
 
 \begin{equation}
     \textbf{States: }\{G, Z, K, Q\}, \qquad \textbf{Actions: } \{H\} 
 \end{equation}
 
-The model represents the labour supply of married women - and the effect of children. More precisely it models a woman who can accumulate human capital by supplying a desired number of working hours. The woman can with a certain probability in each period give birth to a child, where, the number of children influences the utility. The model presented here has 4 states: $G$ which represents human capital, $Z$ which represents the agent's idiosyncratic wage path, $K$ the number of kids in the household and $Q$ which evolves in a deterministic fashion and represents the age of the agent. The action the agent can take in each period is a discrete number of working hours $H$.
-
-\begin{equation}
-    \textbf{Variables: }\{S, W, Y, M, U, L\},  \qquad \textbf{Parameters: } \{\beta_L, \beta_Y, p_\psi, \sigma_\epsilon, \delta, \zeta, \omega, \alpha, \eta_G, \eta_{G^2}\}
-\end{equation}
-
-
-To elaborate the rest of the model variables: Equation \eqref{eq:utility_v1} specifies is the how the agent get utility, $U$. Following the formulation of \textcite{adda_career_2011}, dividing the utility into sub-utility functions, where each sub-utility function allows for curvature by specifying a constant relative risk-averse (CRRA) function for each sub-utility. Assuming the special case of $\ln(\cdot)$. $L$ is leisure and $Y$ is the total income of the household. The parameters $\beta_L, \beta_YK$ is the individual weighing of the different sub-utilities. Note that for identification I will restrict $\beta_Y= 1$.
-Equation \eqref{eq:leissure_v1} specifies the leisure of the agent. Following \textcite{firestone_estimation_1988}, \textcite{thrane_men_2000} and \textcite{ekert-jaffe_time_2015} I assume that some of the time spent with kids can be considered work. I let $\omega=3.5$ be the time spent of extra house work pr. children each week. The weekly number of hours supplied is also subtracted from the total amount of leisure. The number of hours is aggregated to annual level subtracting 6 weeks for holiday. Equation \eqref{eq:wage_v1} specifies the total annual wage of a person, denoted $W$. Again 46 weeks is considered with salary level multiplied with number of hours supplied on the labour market. Equation \eqref{eq:salary_tilde_v1} denotes the hourly Salary $\tilde{S}$. The salary creating process follows a mincer equation, as described by \textcite{lemieux_mincer_2006}. The equation implies that $\log \tilde{S}$ is a function of some constant $\alpha$, and the human capital accumulated on the job. The actual hourly salary is given in equation \eqref{eq:salary_v1}. The hourly salary has a lower bound of $S_{min}=120$ danish kroner. and otherwise it's considered the sum of the idiosyncratic wage path $Z$ and the $\tilde{S}$ which is the salary earned as a function of human capital. The total income of the household $Y_t$ is described by equation \eqref{eq:total_salary_v1} represents the households total earnings, where $f^M(Q_t)$ is the earnings of the husband, $W$ is the wage of the women. $f^M$ is modelled non parametric using data from Danmarks Statistik Bank, and is assumed to be a perfectly deterministic income path of the husband.
-
-The states of the agent evolves the following way: Equation \eqref{eq:age_v1} evolves in a deterministic fashion. Letting the age $Q_t$ increment one year each period. The fertility is modeled in \eqref{eq:fertility_v1}, where $K_t$ (the number of children in the household) evolves by with a certain probability and extra children is added. This probability is dependent on the age of the women $Q$. The probability is found using data from statistics Denmark. Equation \eqref{eq:idiosyncratic_wage_path_v1} explains the idiosyncratic wage path of the women, assumed to follow a random walk. The Human capital accumulates with a constant depreciation rate $\delta$, adding the number of working hours last period.
+And a model that furthermore contains the following parameters: $\alpha, \eta_G, \eta_{G^2}, \delta, \sigma_\epsilon, \beta_L, \beta_Y=1, W_{min}=120, \omega=3.5$. Where the parameters governing the income process $(\alpha, \eta_G, \eta_{G^2}, \delta, \sigma_\epsilon)$ will be calibrated using a simple agent based model, and $\beta_L$ will be estimated using the full model. The recursive formulation of the model is given below:
 
 \begin{align}
     U_t(L_t, Y_t) &= \beta_L \ln(L_t + 1) + \beta_Y \ln(Y_t + 1) \label{eq:utility_v1}\\
     L_t(K_t, H_t) &= 46 \cdot ((24 \cdot 7) - \omega \cdot K_t  - H_t) \label{eq:leissure_v1}\\
-    W_t(S_t, H_t) &= 46 \cdot S_t \cdot H_t \label{eq:wage_v1}\\
-    \log \tilde{S}_t (G_t, Z_t) &= \alpha + \eta_G G_t + \eta_{G^2} G_t^2 \label{eq:salary_tilde_v1}\\
-    S_t(\tilde{S}_t) &= \max(S_{min} , \tilde{S}_t  + Z_t)  \label{eq:salary_v1}\\
-    Y_t(W_t, M_t) &= W_t + f^M(Q_t) \label{eq:total_salary_v1}\\
+    \log \tilde{W}_t (G_t) &= \alpha + \eta_G G_t + \eta_{G^2} G_t^2 \label{eq:salary_tilde_v1}\\
+    W_t(\tilde{W}_t, Z_t) &= \max(W_{min} , \tilde{W}_t  + Z_t)  \label{eq:salary_v1}\\
+    Y_t(Q_t,H_t, W_t) &= 46 \cdot H_t \cdot W_t + f^M(Q_t) \label{eq:total_salary_v1}\\
 \end{align}
 
-
-Law of Motion.
+Law of motion:
 
 \begin{align}
     Q_{t+1}(Q_t) &= Q_t \label{eq:age_v1}\\
@@ -44,9 +96,3 @@ Law of Motion.
 \end{align}
 
 
-%\begin{figure}
-%    \centering
-%    \includegraphics[scale=0.1, angle=90]{figures/modeldynamic_tmp_exogenous.jpg}
-%    \caption{Model dynamics - Exogenous (TMP)}
-%    \label{fig:tmp_modeldynamics_exogenous}
-%\end{figure}
