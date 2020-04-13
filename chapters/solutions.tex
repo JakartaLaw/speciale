@@ -1,6 +1,13 @@
-\section{Deep Q-Function Iteration}
+\section{Soution methods}
 
-Deep Q-function iteration lends extends the classic value function iteration. However, value function iteration as discussed does not fare well in high dimensional state space and furthermore it's very computational heavy.
+\subsection{Value Function Iteration}
+
+As a benchmark solution, I solve the problem by using value function iteration. However modifications to the algorithm presented in section \ref{sec:dynamic_programming}. First and foremost, i consider the Q-function instead of the value function, allowing to store state-action value pairs. Second it should be noted that in this formulation multiple of the features are continuous, not allowing for tabular solutions. Thirdly, the dimension of the state-space + the size of the grid made in infeasable\footnote{In my initial attempt to solve the model by value function iteration, i attempted to get the expectation of the value function using Gauss-Hermite integration, and discretizing the statespace. The solution time was infeasible, which was why my approach changed.}
+) to solve the model by classical ways of solving a model using backwards induction an discreetizing the state space. 
+
+The solution approach is using backwards induction. Again this makes sense since, we know that the model terminates in a deterministic fashion when the agents reaches a certain age. For each step a large random sample of states is drawn conditional on a given age. For each of these state the agent takes each of the possible actions storing the results. This way a large sample of rewards and states can be generated. Further more for each action taken the the Q-function can be evaluated in the new state new state, Q-function can be evaluated, taken the max of each possible action, allowing for the representation of the value function. A graphical representation of the concept:
+
+
 
 The idea is to approximate the integral by using a statistical method, and in this case Deep Learning (another machine learning method would be equally good). Still implore a backwards induction. Consider $f$ to be a machine learning function, that maps from State Space into $\vert \actionspace \vert$. I.e. For a given point in state space a prediction of the value function is computed for each possible action. This implies the method only is feasible for discrete state space. By trying to reduce the mean squared error between the the true values of the Q-function, and the prediction, the $\E[Q(a, s)]$ can be found, which corresponds to integration as could be done using f.x. Gauss Hermite or Monte Carlo integration.
 
@@ -69,3 +76,11 @@ For each age i draw 20.000 random samples. This is because any smaller number of
     \caption{Deep Q-iteration solution vs. benchmark $(\beta_L = 4)$}
     \label{fig:dqi_solution_beta4}
 \end{figure}
+
+\subsection{Policy Gradient}
+
+\subsection{Q-learning}
+
+\subsection{Double Q-learning}
+
+
