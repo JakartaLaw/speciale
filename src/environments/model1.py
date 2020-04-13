@@ -118,6 +118,9 @@ class EnvironmentModel1(InterfaceEnvironment):
         """
         shocks:
             (epsilon, psi) <- that order
+
+        returns:
+            (state, reward, done, info)
         """
         if shocks is None:
             shocks = self.draw_shocks()

@@ -16,6 +16,7 @@ ipykernel = "*"
 scikit-learn = "*"
 gym = "*"
 tensorflow = "*"
+keras = "*"
 
 [requires]
 python_version = "3.7"
