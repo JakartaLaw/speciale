@@ -2,14 +2,30 @@
 
 \subsection{Value Function Iteration}
 
-As a benchmark solution, I solve the problem by using value function iteration. However modifications to the algorithm presented in section \ref{sec:dynamic_programming}. First and foremost, i consider the Q-function instead of the value function, allowing to store state-action value pairs. Second it should be noted that in this formulation multiple of the features are continuous, not allowing for tabular solutions. Thirdly, the dimension of the state-space + the size of the grid made in infeasable\footnote{In my initial attempt to solve the model by value function iteration, i attempted to get the expectation of the value function using Gauss-Hermite integration, and discretizing the statespace. The solution time was infeasible, which was why my approach changed.}
-) to solve the model by classical ways of solving a model using backwards induction an discreetizing the state space. 
+As a benchmark solution, I solve the problem by using value function iteration. However modifications to the algorithm presented in section \ref{sec:dynamic_programming}. First and foremost, i consider the Q-function instead of the value function, allowing to store state-action value pairs. Second it should be noted that in this formulation multiple of the features are continuous, not allowing for tabular solutions. Thirdly, the dimension of the state-space + the size of the grid made in infeasable\footnote{In my initial attempt to solve the model by value function iteration, i attempted to get the expectation of the value function using Gauss-Hermite integration, and discretizing the statespace. The solution time was infeasible, which was why my approach changed.} to solve the model by classical ways of solving a model using backwards induction an discreetizing the state space. 
 
-The solution approach is using backwards induction. Again this makes sense since, we know that the model terminates in a deterministic fashion when the agents reaches a certain age. For each step a large random sample of states is drawn conditional on a given age. For each of these state the agent takes each of the possible actions storing the results. This way a large sample of rewards and states can be generated. Further more for each action taken the the Q-function can be evaluated in the new state new state, Q-function can be evaluated, taken the max of each possible action, allowing for the representation of the value function. A graphical representation of the concept:
+The model is solved using backwards induction. This is due to the fact the model terminates in a deterministic fashion when the agents reaches a certain age. For each step a large random sample of states is drawn conditional on a given age. For each of these state the agent takes each of the possible actions storing the results. This way a large sample of rewards and states can be generated. Furthermore for each action taken (if the state is not terminal) the the Q-function can be evaluated in the new state, taken the max of each possible action, allowing for the estimation of the value function. A graphical representation of the concept is shown in figure \ref{fig:vfi_figure}. 
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.15]{figures/vfi_figure.png}
+    \caption{Value function iteration using Q-function}
+    \label{fig:vfi_figure}
+\end{figure}
 
+The Q-function for each action in the actionspace is made by mapping each $a\in \actionspace$:
 
-The idea is to approximate the integral by using a statistical method, and in this case Deep Learning (another machine learning method would be equally good). Still implore a backwards induction. Consider $f$ to be a machine learning function, that maps from State Space into $\vert \actionspace \vert$. I.e. For a given point in state space a prediction of the value function is computed for each possible action. This implies the method only is feasible for discrete state space. By trying to reduce the mean squared error between the the true values of the Q-function, and the prediction, the $\E[Q(a, s)]$ can be found, which corresponds to integration as could be done using f.x. Gauss Hermite or Monte Carlo integration.
+\begin{equation}
+ Q(S, A=a) = R_t + \gamma \underset{a'\in \actionspace}{\max} Q(S', a')
+\end{equation}
+
+In that sense this can be consideread akin to monte carlo integration, however instead of appoximating the expectation in a single point, rather find the distribution of the rewards + discounted value function over the entire state space. The idea is to approximate the integral by using a statistical method, and in this case Deep Learning (another machine learning method would be equally good). Consider $f$ to be a machine learning function, that has the property:
+
+\begin{equation}
+    f: \statespace \mapsto\R^{\mid \actionspace \mid}
+\end{equation}
+
+For a given point in state space a prediction of the value function is computed for each possible action. This implies the method only is feasible for discrete state space. By trying to reduce the mean squared error between the the true values of the Q-function, and the prediction, the $\E[Q(a, s)]$ can be found, which corresponds to integration as could be done using f.x. Gauss Hermite or Monte Carlo integration.
 
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -77,10 +93,143 @@ For each age i draw 20.000 random samples. This is because any smaller number of
     \label{fig:dqi_solution_beta4}
 \end{figure}
 
-\subsection{Policy Gradient}
+\newpage
 
-\subsection{Q-learning}
+\subsection{Deep Q-learning}
 
-\subsection{Double Q-learning}
+In this paper I implement the algorithm used by (XXX MNIH 2013) for beating Atari games as a way to solve model. First note here, however few modifications will be made to the original implementation, due to the fact, the environment they were only using sensory data (an RGB representation of an image), where a part of their achievement was to transform these images into features that which the value function accurately could map into scores of the game. 
+
+Just as described in section (RL teory XXX) the algorithm tries to maximize the Bellman equation. However now the value-function is estiamted using Deep neural network as a function approximator. Mathematically this can be described as finding:
+
+\begin{equation}
+    Q^*(s_t,a_t) = \E [r_t + \underset{a_{t+1}}{\max}  Q^*(s_{t+1}, a_{t+1}) \mid s_t, a_t]
+\end{equation}
+
+However here $Q^*(s, a)$ is approximated by a parametric function (in this case a Deep Neural Network) $Q(s, a ; \theta)$. Folloing the terminology of (Mnih 2013 XXX), this function approximator is referred to as the Q-network. This Q-network can be trained using stochastic gradient descent as described in section (XXX DEEP LEARNING SECTION):
+
+\begin{equation}
+    \Loss_i(\theta_i) = \E \lsp (y_i - Q(s_t, a_t ; \theta_i))^2 \rsp
+\end{equation}
+
+where:
+
+\begin{equation}
+    y_i = \E [r_t + \gamma \underset{a_{t+1}}\max Q(s_{t+1}, a_{t+1}; \theta_{i-1}) \mid s_t, a_t ]
+\end{equation}
+
+where $i$ implies the iteration of the algorithm, such $i$ increments by one for each update of the parameters $\theta$. This implies the update equation determining the update:
+
+\begin{equation}
+    \nabla_{\theta_i} \Loss_i (\theta_i)  \E \lsp \lp y_i - Q(s_t, a_t ; \theta) \rp \nabla_{\theta_i} Q(s_t, a_t; \theta_i) \rsp
+\end{equation}
+
+Where i follow the formulation of (Mnih 2013 XXX) that $Q(s_{t+1}, a_{t+1}; \theta_{i-1})$ is held fixed, allowing for just writing $y_i$, and not the parametric form of $y_i$.
+
+A traditional choice would be to update the weight after each step in the algorithm only using the last sample. This would the correspond to the traditional Q-learning algorithm. This was the approach used in by (TD GAMMON XXX - omformuler og referer til SUTTON). However, this approach of using Q-learning with a non-linear function approximator has been shown to diverge, and did not extend itself well to learning any other game than backgammon ( John N Tsitsiklis and Benjamin Van Roy 1997 XXX). To accommodate this problem a replay buffer is implemented. At each step in a entry is made to the replay memory containing $s_t, a_t, r_t, s_{t+1}$. This data set $\mathcal{D}$ has a capacity of $N$ entries. Using this replay memory a random sample (mini batch) is drawn used to update the weights of the Q-network. Note here that the capacity of the memory buffer should be greater, by a substantial margin than the number of samples drawn. The random sample has a couple of advantages. It has decorelated observations to update the weights on, allowing for better training (Mihn 2013 XXX). Using a replay buffer requires off-policy learning which is the reason for using Q-learning. This is due to the fact that current parameters $\theta$ is not the same as those generating the data. Note that experiences is drawn randomly, and no experiences (which could have important insights) is prioritized. The full algorithm is summarized below in algorithm \ref{alg:dqlearning}.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+ Initialize replay memory $\mathcal{D}$ with capacity $N$\;
+ Initialize action-value function $Q$ with random weights\;
+ Initialize memory counter $j=1$\;
+ \ForEach {episode $\in \{1, 2, \cdots M \}$}{
+  Initialize sequence with an initial state $s_1$. This is drawn randomly.\;
+    \For{$t \in \{1, 2, \cdots, T \}$}{
+    With probability $\epsilon$ select a random action $a_t$\;
+    Otherwise select $a_t = \underset{a_t}{\argmax}Q^*(s_t, a_t ; \theta)$\;
+    Execute action $a_t$ in environment and observe reward $r_t$ and the new state $s_{t+1}$\;
+    Store transition $(s_t, a_t, r_{t+1}, s_{t+1})$ in $\mathcal{D}$\;
+    Sample random mini-batch of transitions $(s_t, a_t, r_{t+1}, s_{t+1})$ from $\mathcal{D}$\;
+    Set $
+      y_j = \begin{cases}
+        r_j & \text{if terminal states} \\
+        r_j + \gamma \underset{a_{t+1}}{\max}Q(s_{t+1}, a_{t+1}; \theta) & \text{if non-terminal states}
+      \end{cases}
+    $ \;
+    Perform gradient descent step on $(y_j - Q(s_t, a_t ; \theta))^2$ \;
+    Increment $j$\;
+  }
+}
+\caption{Deep Q-learning}
+\label{alg:dqlearning}
+\end{algorithm}
+
+Just as (Minh 2013 XXX) this implementation has the following trock to reduce the number of computations needed. The Q-function maps a state action pair to a scalar value estimates of the Q-value, the most obvious implementation would let the action be part of the input to the function. However, such implementation would require $\actionspace$ number of look ups, at each step, since each action in the action space must be used for evaluation. Instead the Q-function maps the state space to a scalar value for each action, just as described in (SECTION RL XXX) $Q: \statespace \mapsto \R^{\mid \actionspace \mid}$. 
+
+IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
+
+\begin{itemize}
+    \item Netværks arkitektur
+    \item learning rate etc.
+    \item Replay buffer størrelse
+    \item mini batch size etc!
+    \item Endogenisering af parametre til state
+\end{itemize}
+
+The solutions used the following hyper parameters and architecture decisions: The Deep Neural network consists of an input layer (size of state space). Then  2 fully connected layers of width $256$ using rectified linear units as activation functions. Finally the network uses a linear output layer for its predictions. The output layer is of the same size as the action space. The learning rate, $\alpha=0.0005$ and I let epsilon be decremented after each update by: $\epsilon_i = \max (\epsilon_i \cdot 0.9999, 0.01$), where $0.01$ is the minimum exploration that can be done. The replay buffer has a capacity of 1 million rows, and the mini batches used for updating the parameters is $64$ rows. I scale the state space so that each row variable approximately has mean zero and standard deviation of 1 when doing the batch training. This helps performance, and in general accepted as being an important step for getting good performance out of neural networks (XXX Goodfellow). The impatience parameter is set to $\gamma=0.99$, using a standard value. I make the parameter $\beta_L$ a part of the state space, drawing a random value (uniformly) in the interval $[0.2, 6.0]$ at the beginning of each episode, letting the agent navigate through the environment with given preference for leisure. This is done, so only a single solution of the model is necessary for estimating the parameter later.
+
+\subsection{Deep Double Q-learning}
+
+Deep Q-learning is good starting point for an learning algorithm using non linear function approximation, however certain properties of the algorithm is problematic. This is mainly due to the fact that Deep Q-learning can tend to be overoptimistic, and that in a problematic way. In general there exists two ways in which overoptimism can be good or at least not detrimental to performance. 1) If the algorithm uniformly overestimates the Q-function for all actions, then this is not associated with any problems, since then taking the max over the action, will lead to the same result had the estimations been correct. In other words performance would not change, however introspection of the algorithm might be harder. 2) It can be a good thing for an algorithm to be optimistic when faced with uncertainty. If an action would lead to observing an unexplored part of the state space, it might be a good thing to be optimistic with regards to exploration, allowing for possible new policies with higher yielding returns over the episode. Deep Q-learning however does not adhere to any of these properties, instead it usually overestimates the value of the action it has taken due to the max operator in the value estimation: $R_{t+1} + \gamma \underset{A_{t+1}}{\argmax} Q(S_{t+1}, A_{t+1})$. An simple extension (Silver 2015 XXX) is to de-couple the prediction with the evaluation. This can be done by having two different sets of weights $\theta$ and $\tilde{\theta}$, where one is used for evaluation and one is used for the policy. This can be presented the following way. The Q-network target:
+
+\begin{equation}\label{eq:dqn_target}
+    Y_t^{Q} = R_{t+1} + \gamma Q(S_{t+1}, \underset{a}{\argmax} (S_{t+1}, a ; \theta) ; \theta)
+\end{equation}
+
+and the Double DQN target is calculated:
+
+\begin{equation}\label{eq:ddqn_target}
+    Y_t^{DoubleQ} = R_{t+1} + \gamma Q(S_{t+1}, \underset{a}{\argmax}Q(S_{t+1}, a; \theta); \tilde{\theta}) 
+\end{equation}
+
+This alleviates the problem of overestimating the values taking by the algorithm for the following reason. Consider \eqref{eq:dqn_target}. When calculating the value of the state action pair, one uses the same function to choose the action (through the $\argmax$ operator, which can cause the overestimation of the state action pair of the chosen action. The equation below \eqref{eq:ddqn_target} instead estimates the value of the position by using a different set of parameters, $\tilde{\theta}$. Following the implementation of (Silver 2015 XXX) instead of training 2 separate networks instead, which would be perfectly decouple, to reduce time one of the network simply inherits the old weights. Which imply $\tilde{\theta} = \theta^{previous}$. Such that, the target estimation is made by the old weights, while the value of greedy policy uses the new weights:
+
+\begin{equation}\label{eq:ddqn_target_final}
+    Y_t^{DoubleQ} = R_{t+1} + \gamma Q(S_{t+1}, \underset{a}{\argmax}Q(S_{t+1}, a; \theta_t); \theta_t^{previous}) 
+\end{equation}
+
+The full algorithm, which to large extend mirrors the algorithm for Deep Q-learning is as follows, is presented in algorithm \ref{alg:ddqlearning}:
+
+\begin{algorithm}[H]
+\SetAlgoLined
+ Initialize replay memory $\mathcal{D}$ with capacity $N$\;
+ Initialize action-value function $Q$ with random weights: $\theta, \tilde{\theta}$\;
+ Initialize memory counter $j \leftarrow 1$\;
+ Initialize $k$ when to replace target weights $\tilde{\theta}$\;
+ \ForEach {episode $\in \{1, 2, \cdots M \}$}{
+  Initialize sequence with an initial state $s_1$. This is drawn randomly.\;
+    \For{$t \in \{1, 2, \cdots, T$}{
+    With probability $\epsilon$ select a random action $a_t$\;
+    Otherwise select $A_t = \underset{a}{\argmax}Q^*(S_t, A_t ; \theta)$\;
+    Execute action $A_t$ in environment and observe reward $R_t$ and the new state $S_{t+1}$\;
+    Store transition $(S_t, A_t, R_{t+1}, S_{t+1})$ in $\mathcal{D}$\;
+    Sample random mini-batch of transitions $(S_t, A_t, A_{t+1}, S_{t+1})$ from $\mathcal{D}$\;
+    Set $
+      Y_j = \begin{cases}
+        R_j & \text{if terminal states} \\
+        R_j + \gamma Q(S_{t+1}, \underset{a}{\argmax} (Q_t, S_{t+1}; \theta_t); \tilde{\theta_t}) & \text{if non-terminal states}
+      \end{cases}
+    $ \;
+    Perform gradient descent step on $(Y_j - Q(S_t, A_t ; \theta))^2$ w.r.t $\theta$ \;
+    If $j$ is divisible by $k$ replace target weights $\tilde{\theta} \leftarrow \theta$\;
+    Increment $j$ \;
+  }
+}
+\caption{Double Deep Q-learning}
+\label{alg:ddqlearning}
+\end{algorithm}
+
+Just as with the Deep Q-learning implementation i let the Q-function map from: $\statespace \mapsto \R^{\mid \actionspace \mid}$, to reduce the number of computations, when taking the max over the Q-function. 
+
+IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
+
+\begin{itemize}
+    \item Netværks arkitektur
+    \item learning rate etc.
+    \item Replay buffer størrelse
+    \item mini batch size etc!
+    \item Endogenisering af parametre til state
+    \item $k$ værdi. Altså hvornår replacer man vægte i target network.
+\end{itemize}
 
 

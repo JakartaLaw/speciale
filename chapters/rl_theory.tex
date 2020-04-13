@@ -206,7 +206,7 @@ This update is made after each step in a non-terminal state of the environment. 
 Off-policy control can be done by using Q-learning. Q-learning has the slight twist on update the rule for SARSA that:
 
 \begin{equation}
-    Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \lsp R_{t+1} + \gamma \underset{\max}{a} Q(S_{t + 1}, a) - Q(S_t, A-t) \rsp 
+    Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \lsp R_{t+1} + \gamma \underset{a}{\max} Q(S_{t + 1}, a) - Q(S_t, A-t) \rsp 
 \end{equation}
 
 Actions is still chosen by an $\epsilon$-greedy policy, the difference here being the updating rule presenting a different policy than the actual policy, since we assume that we greedily chooses the action in time $t+1$ conditional on the state. Q-learning and double Q-learning will be explored in depth later when describing the algorithms used in this paper.
