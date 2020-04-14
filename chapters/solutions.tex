@@ -86,7 +86,7 @@ For each age i draw 20.000 random samples. This is because any smaller number of
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_4_solution_benchmark_variance.png}
-  \caption{Variance of simulations}
+  \caption{Variance of Paths}
   \label{fig:dqi_solution_beta4_var}
 \end{subfigure}
     \caption{Deep Q-iteration solution vs. benchmark $(\beta_L = 4)$}
@@ -156,18 +156,26 @@ A traditional choice would be to update the weight after each step in the algori
 
 Just as (Minh 2013 XXX) this implementation has the following trock to reduce the number of computations needed. The Q-function maps a state action pair to a scalar value estimates of the Q-value, the most obvious implementation would let the action be part of the input to the function. However, such implementation would require $\actionspace$ number of look ups, at each step, since each action in the action space must be used for evaluation. Instead the Q-function maps the state space to a scalar value for each action, just as described in (SECTION RL XXX) $Q: \statespace \mapsto \R^{\mid \actionspace \mid}$. 
 
-IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
+The solutions used the following hyper parameters and architecture decisions: The Deep Neural network consists of an input layer (size of state space). Then  2 fully connected layers of width $256$ using rectified linear units as activation functions. Finally the network uses a linear output layer for its predictions. The output layer is of the same size as the action space. The learning rate, $\alpha=0.0005$ and I let epsilon be decremented after each update by: $\epsilon_i = \max (\epsilon_{i-1} \cdot 0.9999, 0.01$), where $0.01$ is the minimum exploration that can be done. The replay buffer has a capacity of 1 million rows, and the mini batches used for updating the parameters is $64$ rows. I scale the state space so that each row variable approximately has mean zero and standard deviation of 1 when doing the batch training. This helps performance, and in general accepted as being an important step for getting good performance out of neural networks (XXX Goodfellow). The impatience parameter is set to $\gamma=0.99$, using a standard value. I make the parameter $\beta_L$ a part of the state space, drawing a random value (uniformly) in the interval $[0.2, 6.0]$ at the beginning of each episode, letting the agent navigate through the environment with given preference for leisure. This is done, so only a single solution of the model is necessary for estimating the parameter later. I scale the rewards (so they are approximate zero mean and have a standard deviation of 1, conditional on the $\beta_L$ value. Again this is done to improve the training performance and to do introspection; it becomes possible to see if there is any trend in the training performance. The algorithm is trained for 3000 episodes. Figure \ref{fig:training_performance_simple_model}  (left plot) shows the training performance of the Deep Q-learning algorithm. The plot shows the cumulative rewards over the life cycle of the agents for each episode. The performance begins at around 2.5 and ends at an average of $7.9$ as the asymptotic value. The performance seems to reach this asymptotic level at around 1000 episodes.
 
-\begin{itemize}
-    \item Netværks arkitektur
-    \item learning rate etc.
-    \item Replay buffer størrelse
-    \item mini batch size etc!
-    \item Endogenisering af parametre til state
-\end{itemize}
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqn_training_performance_simple_model.png}
+  \caption{DQN Training Performance}
+  \label{fig:dqn_training_performance_simple}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/ddqn_training_performance_simple_model.png}
+  \caption{Double DQN Training Performance}
+  \label{fig:ddqn_training_performance_simple}
+\end{subfigure}
+    \caption{Comparing training perfance of Deep Q-Learning and Double Deep Q-Learning}
+    \label{fig:training_performance_simple_model}
+\end{figure}
 
-The solutions used the following hyper parameters and architecture decisions: The Deep Neural network consists of an input layer (size of state space). Then  2 fully connected layers of width $256$ using rectified linear units as activation functions. Finally the network uses a linear output layer for its predictions. The output layer is of the same size as the action space. The learning rate, $\alpha=0.0005$ and I let epsilon be decremented after each update by: $\epsilon_i = \max (\epsilon_i \cdot 0.9999, 0.01$), where $0.01$ is the minimum exploration that can be done. The replay buffer has a capacity of 1 million rows, and the mini batches used for updating the parameters is $64$ rows. I scale the state space so that each row variable approximately has mean zero and standard deviation of 1 when doing the batch training. This helps performance, and in general accepted as being an important step for getting good performance out of neural networks (XXX Goodfellow). The impatience parameter is set to $\gamma=0.99$, using a standard value. I make the parameter $\beta_L$ a part of the state space, drawing a random value (uniformly) in the interval $[0.2, 6.0]$ at the beginning of each episode, letting the agent navigate through the environment with given preference for leisure. This is done, so only a single solution of the model is necessary for estimating the parameter later.
-
+Figure \ref{fig:dqn_solution_beta2} and \ref{fig:dqn_solution_beta4} compares the performance of the algorihtm to two different benchmarks. One benchmark is the when the $\beta_L = 2$ another $\beta_L=4$. These differences in preferences will yield different optimal policies conditional on the $\beta_L$. I compare the policy chosen by the agent with different deterministic policies. Figure \ref{fig:dqn_solution_beta2} (left plot) shows either using $0, 37, 45$ hours pr. week as comparisons and an agent picking randomly. All agents have been simulated for 300 episodes, yielding the plots being averages, and the standard deviations are calculated on an age basis for each agent. It should also be noted that $\epsilon$ (the exploration ratio of the agent) is set to 0, such that the agent now only greedily explores the environment. Comparing this to the DQN agent I find that it's reasonable to assume that the DQN agent has learned to navigate the environment. A small dip from around age 55 can be observed, but I believe this does not make the feat any less impressive, and furthermore I believe that the solution fairly accurately approximates the correct optimal policy. Looking to the the right hands side plot, the variance of the utility (1 standard deviation). Again the best benchmark for $\beta_L = 2$ an agent that works 45 hours a week, seem have a overlap even in the last periods, where they diverge a little, allowing me to conclude, that this differences in performance is very small. Figure \ref{fig:dqn_solution_beta4} shows the same plot just for $\beta_L = 4$. Again the DQN agent fairly accurately approximates the optimal policy, with even less variance than observed in with $\beta_L = 2$. One thing to note is, that a small hump can be observed for the DQN agent at around age 28, where it has found a way to beat the deterministic policy. Again this might just be variance of the simulations. 
 
 
 \begin{figure}[ht]
@@ -197,7 +205,7 @@ The solutions used the following hyper parameters and architecture decisions: Th
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1\linewidth]{figures/dqn_model1_beta_4_solution_benchmark_variance.png}
-  \caption{Variance of simulations}
+  \caption{Variance of Paths}
   \label{fig:dqn_solution_beta4_var}
 \end{subfigure}
     \caption{Deep Q-Learning solution vs. benchmark $(\beta_L = 4)$}
@@ -205,7 +213,7 @@ The solutions used the following hyper parameters and architecture decisions: Th
 \end{figure}
 
 
-\subsection{Deep Double Q-learning}
+\subsection{Double Deep Q-learning}
 
 Deep Q-learning is good starting point for an learning algorithm using non linear function approximation, however certain properties of the algorithm is problematic. This is mainly due to the fact that Deep Q-learning can tend to be overoptimistic, and that in a problematic way. In general there exists two ways in which overoptimism can be good or at least not detrimental to performance. 1) If the algorithm uniformly overestimates the Q-function for all actions, then this is not associated with any problems, since then taking the max over the action, will lead to the same result had the estimations been correct. In other words performance would not change, however introspection of the algorithm might be harder. 2) It can be a good thing for an algorithm to be optimistic when faced with uncertainty. If an action would lead to observing an unexplored part of the state space, it might be a good thing to be optimistic with regards to exploration, allowing for possible new policies with higher yielding returns over the episode. Deep Q-learning however does not adhere to any of these properties, instead it usually overestimates the value of the action it has taken due to the max operator in the value estimation: $R_{t+1} + \gamma \underset{A_{t+1}}{\argmax} Q(S_{t+1}, A_{t+1})$. An simple extension (Silver 2015 XXX) is to de-couple the prediction with the evaluation. This can be done by having two different sets of weights $\theta$ and $\tilde{\theta}$, where one is used for evaluation and one is used for the policy. This can be presented the following way. The Q-network target:
 
@@ -258,16 +266,8 @@ The full algorithm, which to large extend mirrors the algorithm for Deep Q-learn
 
 Just as with the Deep Q-learning implementation i let the Q-function map from: $\statespace \mapsto \R^{\mid \actionspace \mid}$, to reduce the number of computations, when taking the max over the Q-function. 
 
-IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
 
-\begin{itemize}
-    \item Netværks arkitektur
-    \item learning rate etc.
-    \item Replay buffer størrelse
-    \item mini batch size etc!
-    \item Endogenisering af parametre til state
-    \item $k$ værdi. Altså hvornår replacer man vægte i target network.
-\end{itemize}
+For the Double DQN agent I in general use the same hyper parameters used for the DQN agent: The network architecture is again an input layer of the size of the state space, followed by two fully connected layers with Rectified Linear units as activation functions ending with an output layer with linear activation of same size as the action space. Again i let the learning rate be $\alpha = 0.0005$ and the $\epsilon_i = \max (\epsilon_{i-1} \cdot 0.9999, 0.01)$, such that exploration is performed through out the training period. Again the replay buffer has a capacity of a million rows and i use mini batches of size 64 to perform stochastic gradient descent on the weight of the neural network approximating the Q-function. I transform the states such that they are mean zero and a standard deviation of 1. The same is true for the rewards conditional on the $\beta_L$ value. The $\beta_L$ value is just as with $DQN$ and value function iteration added to the state space, allowing for a single solution of the model. I uniformly draw $\beta_L$ from the interval $[0.2, 6]$ and sets this to be part of the environment in the beginning of each episode. I let the target network inherit the old weights every 100'th iteration of the algorithm. The algorithm is trained for 3000 episodes. Figure \ref{fig:training_performance_simple_model} (right plot) shows the performance. Very similar to the DQN I find that the performance stabilized at around 1000 episodes, and reaches an asymptotic performance of $8.22$, which is slightly higher compared to the DQN agent which had an asymptotic value of $7.92$ 
 
 \begin{figure}[ht]
 \begin{subfigure}{.5\textwidth}
@@ -283,7 +283,7 @@ IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
   \label{fig:ddqn_solution_beta2_var}
 \end{subfigure}
     \caption{Double Deep Q-Learning solution vs. benchmark $(\beta_L = 2)$}
-    \label{fig:dqn_solution_beta2}
+    \label{fig:ddqn_solution_beta2}
 \end{figure}
 
 \begin{figure}[ht]
@@ -296,9 +296,11 @@ IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
 \begin{subfigure}{.5\textwidth}
   \centering
   \includegraphics[width=1\linewidth]{figures/ddqn_model1_beta_4_solution_benchmark_variance.png}
-  \caption{Variance of simulations}
-  \label{fig:dqn_solution_beta4_var}
+  \caption{Variance of Paths}
+  \label{fig:ddqn_solution_beta4_var}
 \end{subfigure}
     \caption{Double Deep Q-Learning solution vs. benchmark $(\beta_L = 4)$}
     \label{fig:ddqn_solution_beta4}
 \end{figure}
+
+Figure \ref{fig:ddqn_solution_beta2} and \ref{fig:ddqn_solution_beta4} shows the performance of the Deep DQN agent comparing it to two different preferences of leisure: $\beta_L = 2$ and $\beta_L = 4$. Four agents is used for comparison: An agent that chooses actions randomly, and three agents that in an deterministic fashion works $0, 37$ or $45$ hours a week. The results of the Double DQN agent is comparable to those found within the other agents (VFI and DQN). Figure \ref{fig:ddqn_solution_beta2} shows the performance where the preference for leisure $\beta_L = 2$. Again the best deterministic policy is the 45 hour agent, which is very close to what the DQ agent chooses, except for the last 5 years of the agent's life cycle where the utility is slightly lower. Comparing the variance of the utility on right hand side plot of figure \ref{fig:ddqn_solution_beta2}, there is overlap of the simulations of the Double DQN agent and the 45 hours a week agent. Figure \ref{fig:ddqn_solution_beta4} compares the Deep DQN agent to the agents when the preference for leissure $\beta_L = 4$. Here again the optimal policy pretty closely mirrors the best deterministic agent, the one which does not work, with a clear overlap presented in figure on right hand side.
