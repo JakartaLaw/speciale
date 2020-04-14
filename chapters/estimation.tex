@@ -1,0 +1,47 @@
+\section{Estimation of Model}
+
+Only a single parameter of the model needs to be estimated: $\beta_L$. Again, just as when tuning the parameters driving the wage indirect inference is used. The parameters are tuned the following way. Simulate $N$ individuals. Find the relevant moments of supplied working hours. Find the mean squared distance between the actual supplied working hours and the simulated. Continue the process until convergence!
+
+Usually when tuning a dynamic structural model, using simulated methods of moments one would supply the parameters not as part of the state space. The reason for this, is that as the size of the state space expands, it gets exponentially more expensive to solve the model. So the algorithm would go: for a given set of parameters need to be estimated, supply a random initialization. Solve the model for given parameters. Use the solved model to calculate the moments. Use numerical optimization to minimize given optimization problem.
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_4_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:dqi_solution_beta4_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqi_model1_beta_4_solution_benchmark_variance.png}
+  \caption{Variance of Paths}
+  \label{fig:dqi_solution_beta4_var}
+\end{subfigure}
+    \caption{Value Function Iteration solution vs. benchmark $(\beta_L = 4)$}
+    \label{fig:dqi_solution_beta4}
+\end{figure}
+
+\iffalse
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{figures/dqi_model1_estimation_Beta_L}
+    \caption{Estimation of $\beta_L$ using Value Function Iteration}
+    \label{fig:dqi_model1_optimal_beta_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{figures/dqn_model1_estimation_Beta_L}
+    \caption{Estimation of $\beta_L$ using Deep Q-Learning}
+    \label{fig:dqi_model1_optimal_beta_L}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.4]{figures/ddqn_model1_estimation_Beta_L}
+    \caption{Estimation of $\beta_L$ using Double Deep Q-Learning}
+    \label{fig:dqi_model1_optimal_beta_L}
+\end{figure}
+
+\fi

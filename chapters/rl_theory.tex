@@ -86,7 +86,7 @@ A couple of things to note about the bellman equation: First and foremost one sh
 
 \textbf{BOOTSTRAP SKAL INTRODUCERES}
 
-Dynamic programming, invented by Richard Bellman, and allows for a way to find the optimal policy $\pi^{*}$ and the associated value function $v^{\pi^{*}}$ when following the optimal policy. To do dynamic programming, certain things are necessary. First the size of the statespace should be limited. That is due to the fact, that number of computations will increase exponentially with the number of states. Secondly it also requires that the entire MDP is known. So partially observable models f.x. cannot be used. In general it can be said that dynamic programming (and also reinforcement learning) is to use the value function to structure the search for good policies  \parencite{sutton_reinforcement_2018}. It's clear that if we have the optimal value function, we also have the optimal policy:
+Dynamic programming, invented by Richard Bellman, allows for a way to find the optimal policy $\pi^{*}$ and the associated value function $v^{\pi^{*}}$ when following the optimal policy. To do dynamic programming, certain things are necessary. First the size of the statespace should be limited. That is due to the fact, that number of computations will increase exponentially with the number of states. Secondly it also requires that the entire MDP is known. So partially observable models f.x. cannot be used. In general it can be said that dynamic programming (and also reinforcement learning) is to use the value function to structure the search for good policies  \parencite{sutton_reinforcement_2018}. It's clear that if we have the optimal value function, we also have the optimal policy:
 
 \begin{equation}
     v_t^{*}(s_t) = \underset{a_t}{\max} \lsp \E \lsp R_{t+1} + \gamma v^{*}_{t+1}(s_{t+1}) \mid S_t = s_t, A_t = a_t\rsp \rsp
@@ -178,7 +178,7 @@ Consider now how to do Monte Carlo Control, i.e. approximating the optimal polic
 Just with the caveat that instead of considering the value function, the Q-function (state-action pair) is used for policy evaluation. Policy improvement is done by making the policy greedy with respect to the current estimated Q-function \parencite{sutton_reinforcement_2018}. Since the Q-function instead of the value function is used, no model us needed to construct a greedy policy \parencite{sutton_reinforcement_2018}. The greedy policy is the one that for each $s \in \statespace$ deterministically chooses an action with maximal action-value:
 
 \begin{equation}
-    \pi(s) = \underset{a}{\argmax}  q( s, a )
+    \pi(S_t) = \underset{a}{\argmax}  Q( S_t, a )
 \end{equation}
 
 Now this algorithm is made under the assumption of \textit{exploring starts} and under the assumption of \textit{infinite epsiodes}. The assumption of inifinte episodes is to ensure convergence, and in practice the algorithm is usually run until the algorithm has converged by some high number of episodes. The more problematic assumption is that of exploring starts. This is due to the fact, that in reality we would not assume that there is a uniform distribution of starting in all states $s \in \statespace$, and proceed the episode from that starting point. This is an essential assumption, because otherwise, one could not know the value function of unexplored states without visiting them. This leads to the concept of on-policy control. On policy control is most often implemented using an $\epsilon$-greedy strategy. The implication is that $P(A=a \mid S=s, q^{\pi}) > 0, \forall a \in \actionspace, s \in \statespace$. Where the non optimal action is choosen by drawing from an uniform distribution over all actions with probability $\epsilon$. Off-policy control works by having two different policies one which works by doing the optimal action (target policy $\pi$), and a second policy that moves to investigate the state space (behavior policy $b$). Using the experience from these two policies importance sampling can be used to estimate the value function! It's required that the behavior policy has a non zero probability to any action for any state.
@@ -206,7 +206,7 @@ This update is made after each step in a non-terminal state of the environment. 
 Off-policy control can be done by using Q-learning. Q-learning has the slight twist on update the rule for SARSA that:
 
 \begin{equation}
-    Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \lsp R_{t+1} + \gamma \underset{a}{\max} Q(S_{t + 1}, a) - Q(S_t, A-t) \rsp 
+    Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \lsp R_{t+1} + \gamma \underset{a}{\max} Q(S_{t + 1}, a) - Q(S_t, A_t) \rsp 
 \end{equation}
 
 Actions is still chosen by an $\epsilon$-greedy policy, the difference here being the updating rule presenting a different policy than the actual policy, since we assume that we greedily chooses the action in time $t+1$ conditional on the state. Q-learning and double Q-learning will be explored in depth later when describing the algorithms used in this paper.
