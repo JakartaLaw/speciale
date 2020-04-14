@@ -97,7 +97,7 @@ For each age i draw 20.000 random samples. This is because any smaller number of
 
 \subsection{Deep Q-learning}
 
-In this paper I implement the algorithm used by (XXX MNIH 2013) for beating Atari games as a way to solve model. First note here, however few modifications will be made to the original implementation, due to the fact, the environment they were only using sensory data (an RGB representation of an image), where a part of their achievement was to transform these images into features that which the value function accurately could map into scores of the game. 
+In this paper I implement the algorithm used by \parencite{mnih_playing_nodate} for beating Atari games as a way to solve model. First note here, however few modifications will be made to the original implementation, due to the fact, the environment they were only using sensory data (an RGB representation of an image), where a part of their achievement was to transform these images into features that which the value function accurately could map into scores of the game. 
 
 Just as described in section (RL teory XXX) the algorithm tries to maximize the Bellman equation. However now the value-function is estiamted using Deep neural network as a function approximator. Mathematically this can be described as finding:
 
@@ -227,7 +227,7 @@ and the Double DQN target is calculated:
     Y_t^{DoubleQ} = R_{t+1} + \gamma Q(S_{t+1}, \underset{a}{\argmax}Q(S_{t+1}, a; \theta); \tilde{\theta}) 
 \end{equation}
 
-This alleviates the problem of overestimating the values taking by the algorithm for the following reason. Consider \eqref{eq:dqn_target}. When calculating the value of the state action pair, one uses the same function to choose the action (through the $\argmax$ operator, which can cause the overestimation of the state action pair of the chosen action. The equation below \eqref{eq:ddqn_target} instead estimates the value of the position by using a different set of parameters, $\tilde{\theta}$. Following the implementation of (Silver 2015 XXX) instead of training 2 separate networks instead, which would be perfectly decouple, to reduce time one of the network simply inherits the old weights. Which imply $\tilde{\theta} = \theta^{previous}$. Such that, the target estimation is made by the old weights, while the value of greedy policy uses the new weights:
+This alleviates the problem of overestimating the values taking by the algorithm for the following reason. Consider \eqref{eq:dqn_target}. When calculating the value of the state action pair, one uses the same function to choose the action (through the $\argmax$ operator, which can cause the overestimation of the state action pair of the chosen action. The equation below \eqref{eq:ddqn_target} instead estimates the value of the position by using a different set of parameters, $\tilde{\theta}$. Following the implementation of \parencite{van_hasselt_deep_2015} instead of training 2 separate networks instead, which would be perfectly decouple, to reduce time one of the network simply inherits the old weights. Which imply $\tilde{\theta} = \theta^{previous}$. Such that, the target estimation is made by the old weights, while the value of greedy policy uses the new weights:
 
 \begin{equation}\label{eq:ddqn_target_final}
     Y_t^{DoubleQ} = R_{t+1} + \gamma Q(S_{t+1}, \underset{a}{\argmax}Q(S_{t+1}, a; \theta_t); \theta_t^{previous}) 
