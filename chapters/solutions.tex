@@ -168,6 +168,43 @@ IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
 
 The solutions used the following hyper parameters and architecture decisions: The Deep Neural network consists of an input layer (size of state space). Then  2 fully connected layers of width $256$ using rectified linear units as activation functions. Finally the network uses a linear output layer for its predictions. The output layer is of the same size as the action space. The learning rate, $\alpha=0.0005$ and I let epsilon be decremented after each update by: $\epsilon_i = \max (\epsilon_i \cdot 0.9999, 0.01$), where $0.01$ is the minimum exploration that can be done. The replay buffer has a capacity of 1 million rows, and the mini batches used for updating the parameters is $64$ rows. I scale the state space so that each row variable approximately has mean zero and standard deviation of 1 when doing the batch training. This helps performance, and in general accepted as being an important step for getting good performance out of neural networks (XXX Goodfellow). The impatience parameter is set to $\gamma=0.99$, using a standard value. I make the parameter $\beta_L$ a part of the state space, drawing a random value (uniformly) in the interval $[0.2, 6.0]$ at the beginning of each episode, letting the agent navigate through the environment with given preference for leisure. This is done, so only a single solution of the model is necessary for estimating the parameter later.
 
+
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqn_model1_beta_2_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:dqn_solution_beta2_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqn_model1_beta_2_solution_benchmark_variance.png}
+  \caption{Variance of Paths}
+  \label{fig:dqn_solution_beta2_var}
+\end{subfigure}
+    \caption{Deep Q-Learning solution vs. benchmark $(\beta_L = 2)$}
+    \label{fig:dqn_solution_beta2}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqn_model1_beta_4_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:dqn_solution_beta4_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/dqn_model1_beta_4_solution_benchmark_variance.png}
+  \caption{Variance of simulations}
+  \label{fig:dqn_solution_beta4_var}
+\end{subfigure}
+    \caption{Deep Q-Learning solution vs. benchmark $(\beta_L = 4)$}
+    \label{fig:dqn_solution_beta4}
+\end{figure}
+
+
 \subsection{Deep Double Q-learning}
 
 Deep Q-learning is good starting point for an learning algorithm using non linear function approximation, however certain properties of the algorithm is problematic. This is mainly due to the fact that Deep Q-learning can tend to be overoptimistic, and that in a problematic way. In general there exists two ways in which overoptimism can be good or at least not detrimental to performance. 1) If the algorithm uniformly overestimates the Q-function for all actions, then this is not associated with any problems, since then taking the max over the action, will lead to the same result had the estimations been correct. In other words performance would not change, however introspection of the algorithm might be harder. 2) It can be a good thing for an algorithm to be optimistic when faced with uncertainty. If an action would lead to observing an unexplored part of the state space, it might be a good thing to be optimistic with regards to exploration, allowing for possible new policies with higher yielding returns over the episode. Deep Q-learning however does not adhere to any of these properties, instead it usually overestimates the value of the action it has taken due to the max operator in the value estimation: $R_{t+1} + \gamma \underset{A_{t+1}}{\argmax} Q(S_{t+1}, A_{t+1})$. An simple extension (Silver 2015 XXX) is to de-couple the prediction with the evaluation. This can be done by having two different sets of weights $\theta$ and $\tilde{\theta}$, where one is used for evaluation and one is used for the policy. This can be presented the following way. The Q-network target:
@@ -232,4 +269,36 @@ IMPLEMENTATIONS DETALJER SKAL SKRIVES NÅR MODEL ER LØST! DVS
     \item $k$ værdi. Altså hvornår replacer man vægte i target network.
 \end{itemize}
 
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/ddqn_model1_beta_2_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:ddqn_solution_beta2_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/ddqn_model1_beta_2_solution_benchmark_variance.png}
+  \caption{Variance of Paths}
+  \label{fig:ddqn_solution_beta2_var}
+\end{subfigure}
+    \caption{Double Deep Q-Learning solution vs. benchmark $(\beta_L = 2)$}
+    \label{fig:dqn_solution_beta2}
+\end{figure}
 
+\begin{figure}[ht]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/ddqn_model1_beta_4_solution_benchmark_paths.png}
+  \caption{Simulated Paths}
+  \label{fig:ddqn_solution_beta4_path}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=1\linewidth]{figures/ddqn_model1_beta_4_solution_benchmark_variance.png}
+  \caption{Variance of simulations}
+  \label{fig:dqn_solution_beta4_var}
+\end{subfigure}
+    \caption{Double Deep Q-Learning solution vs. benchmark $(\beta_L = 4)$}
+    \label{fig:ddqn_solution_beta4}
+\end{figure}
