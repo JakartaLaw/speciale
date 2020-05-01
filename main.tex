@@ -93,6 +93,7 @@
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{0.25cm}
+\renewcommand{\baselinestretch}{1.5}
 \usepackage[margin=1.05in]{geometry}
 
 
@@ -139,9 +140,9 @@ Number of spaces: \quickwordcount{main}
     \item \textbf{(50 \% Done)} Parameter kalibrering!  \textit{Vær meget klar i spyttet om det er agent baseret modellering, for at komme hurtigere igennem}
     \item Estimation
         \begin{itemize}
-        \item VFI (Deep Q-function Iteration)
-        \item Q-learning
-        \item Double Q-learning
+        \item \textbf{(DONE)} VFI (Deep Q-function Iteration)
+        \item \textbf{(DONE)} Q-learning
+        \item \textbf{(DONE)} Double Q-learning
     \end{itemize}
     \item Resultater
 \end{itemize}
@@ -150,24 +151,30 @@ Number of spaces: \quickwordcount{main}
 
 %\input{chapters/introduction.tex}
 
-%\input{chapters/litteraturereview.tex}
+\input{chapters/litteraturereview.tex}
 
-%\input{chapters/model1_exogenous.tex}
+\input{chapters/model1_exogenous.tex}
 
 %\input{chapters/rl_theory}
 
 %\input{chapters/deeplearning}
 
-%\input{chapters/parametertuning.tex}
+\input{chapters/parametertuning.tex}
 
-\input{chapters/solutions}
+%\input{chapters/solutions}
 
-\input{chapters/estimation}
+%\input{chapters/estimation}
 
 %\input{chapters/model1_results.tex}
+
+\input{chapters/model2}
 
 \clearpage
 
 %\printbibliography
+
+\clearpage
+
+%\input{chapters/appendix}
 
 \end{document}
