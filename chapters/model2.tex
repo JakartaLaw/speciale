@@ -1,0 +1,60 @@
+\section{An extended Model}
+
+After asserting that a deep reinforcement learning agent can navigate the state space easily, we extend the model to address the issues we found in the simple model presented in section \ref{sec:model1}. First we want to address that women should not permanently withdraw from the labour force. Second the log-function used for the sub-utilities caps the utility very hard, which implies that for very small pertubations of $\beta_L$ makes the agent substitute into one of the extremes, working 45 hours exclusively or working 0 hours exclusively. They agent should ideally be more balanced, therefore the functional form of the sub-utilities should have a steeper curvature. Since the other papers have suggested that children do not take a uniform amount of time from mothers leissure over the life cycle, I track the age of the children, such that a functional form of the amount of time used on children kan vary by the age of the child:
+
+\begin{equation}
+    U_t = \beta_L L_{t}^\zeta + \beta_Y Y_t^{\zeta}
+\end{equation}
+
+The fertility process should also be extended. I now assume that each household can have a maximum of four kids. I track whether how many kids the family has, and the associated age. Still in each period the number of children in the household can increment by one.
+
+\begin{equation}
+    K_{t+1} = K_t+ \psi_t, \qquad \psi_t \mid Q_t \sim Bernoulli (p_\psi(Q_t))
+\end{equation}
+
+However i now let $B^\top$ be a vector of size 4 equal to the maximum number of children. Furthermore i let the vector $C^\top$ denote the individual age of the children also of size 4. This implies the for index $i$ of vector $K$ implies the $i$'th child, index $i$ of vector $C$ implies the same child's corresponding age.
+
+\begin{equation}
+    B_{t} [0:K_t] = 1 
+\end{equation}
+
+and the age vector is defined as:
+
+\begin{equation}
+    C_{t+1} = C_t + B_{t+1}
+\end{equation}
+
+So that the age of the children only increments if and only if the children lives.
+
+Finally the utility part of the model need to be adjusted to take into account the number of hours used pr. child. Let $J$ denote the number of hours used on children. Using the numbers found by \parencite{ekert-jaffe_time_2015} one can say that for children below age 3 takes 10 hours pr week, children in the age 3 up to age 16 takes 3.5 hours pr. week, and children above takes 0 hours of leisure pr. week for women. 
+
+\begin{equation}
+    J_t = \sum_{i=1}^4 \begin{cases}
+        0.0 & \text{if } B_t[i] = 0 \\
+        10.0 & \text{if } B_t[i] = 1 \land C_t[i] < 3 \\
+        3.5 & \text{if } B_t[i] = 1 \land 3 \geq C_t[i] < 16 \\
+        0 & \text{if } B_t[i] = 1 \land  16 \geq  C_t[i] 
+    \end{cases}
+\end{equation}
+
+Another thing to adress is, that empirically women tend to work less when they are young (in the age of 18 to 30), gradually increasing the number of working hours as shown in figure \ref{fig:dqi_model1_average_path_sim_vs_empirical}. This is probably a consequence of education. Looking to figure INDSÆT FIGUR, it could appear to be a consequence of women doing full time education, not having the time to work (more than a few hours a week) that could explain the result. To address this problem I add to the model an education parameter. In this setup the education does not add to higher salary instead it only goes in the model as additional time spent. Education is assumed to be exogenous, and over the life cycle the women will with some probability be done with education, not to return ever again to the education system. Using \textbf{FOLK1A} from Statistics Denmark i find the total number of women in a given age group. The total number of women for a given age group doing full time education is found in the source \textbf{UDDAKT10} also from Statistics Denmark. Figur INDSÆT FIGURE shows the data. I fit this with a linear regression and find a path linearly decreasing the number of women doing full time education. I model the education the following way:
+
+\begin{equation}
+    E_{t+1} = E_{t} \cdot \iota_t, \qquad \iota \sim \iota_t Binomial(p_{\iota}(Q_T))
+\end{equation}
+
+So in each period with some probability $E^{prob}_t \equiv p_{\iota}(Q_T)$ the women will end full time education. Both $E$ and $E^{prob}_t$ is part of the state space. Since women do full time education i let assume that the time used on full time education is 37 hours pr. week.
+
+Finally note that the utility is calculated pr. week basis instead of on an annual basis. This is again done, such that the sub utilities, do not squash the values to hard, as was the case in model 1, making estimating of the model very hard, allowing small pertubations of $\beta_L$ having to much effect. Also compared to the original model $f^M(Q_t)$ now represents the number weekly total income of the husband rather than the annual.
+
+\begin{equation}
+    L_t = 24 \cdot 7 - H_t - J_t - E_t \cdot 37
+\end{equation}
+
+Since education is coupled with a transfer from the state in the danish context this is added aswell, such that the household will a transfer of $\frac{6000 kr \times 12}{52} \approx 1400 kr$ each weekh from the government, while the women is studying, which means the total income of the household is equal to:
+
+\begin{equation}
+    Y_t = H_t \cdot W_t + f^M(Q_t) + E_t \cdot 1400
+\end{equation}
+
+

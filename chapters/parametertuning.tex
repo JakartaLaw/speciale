@@ -106,6 +106,11 @@ Where equation \eqref{eq:wage_var_optimization} assummes $C_i \in C$, $j \in \{\
     \label{tab:wage_path_optimized_params}
 \end{table}
 
+Looking to the parameters, how does they correspond to other values found in the literature? First $\hat{\alpha} $ is the constant in the wage equation, since the Mincer equation is log transformed a reversal an interpretation requires the $\exp (\cdot)$ transformation. Assuming no human capital, $G=0$, yields $\exp (\hat{\alpha}) = \exp ( 4.609 ) = 100$. Or in other words, a totally inexperience worker would in this model have an hourly wage of 100 DKK (not far from the actual minimum wage). 
+
+Looking to $\delta$ the human capital depreciation I find a value of appoximately $20 \%$ pr. year. Compared to other studies (Kunze 2002 XXX) she find that parental leave reduces wages for women with about $13$ to $18 \%$ pr year, while other work interuptions is about $2$  to $5 \%$ a year. (Light & ureta 1995) finds values for human capital depreciation at about 13 $\%$ a year.
+
+
 KOMMENTER PÅ RESULTATERNE SAMMENLIGNET MED LITTERATUREN. 
 
 \begin{figure}[ht]
@@ -129,29 +134,3 @@ KOMMENTER PÅ RESULTATERNE SAMMENLIGNET MED LITTERATUREN.
 
 Figure \ref{fig:sim_wage_vs_empirical_wage} allows for comparing the empirical wage process with the simulated. First looking to the \textit{wage path}, I conclude that the mincer equation (even though it does not account for education level), seem to give a relatively good fit to the data even without taking education into account, and even though it's assumed that the parameters driving the wage process are the same. The mean absolute error for the women wage path is $10.61$ DKK, and for men the number is $5.84$ DKK, which considering the relatively simple parametric form of the process, is very good. Considering the variance of the wage process, it should be noted that the empirical wage process is skewed. In this setup, this is not the case. This is, however, a consequence of the design of the wage process, yielding it easier to tune. It should be noted that the size of the inter-quartile range seem to fit the wage path of men reasonably, but for women it slighty overshoots.
 
-\subsection{Initial parameter values for the utility function}
-
-\iffalse 
-
-SKAL SKRIVES OM!!!
-
-We see in equation \eqref{eq:utility_v1} that drives the utility function three parameters are present: $\beta_K, \beta_L, \beta_Y$. As mentioned i restrict $\beta_Y = 1$ to achieve identification, over the latent variables. Now since it can be computationally heavy to solve the model using simulation and indirect inference, some initial values of $\beta_K, \beta_L$ needs to be found, that will give a reasonable fit to the model when solving. I create an agent that moves in some reasonable fashion to create a initial fit of the model. Again I will stress, that these values are not by any means optimal, they are however a good starting point.
-
-The agent moves by the following metric:
-
-\begin{equation}
-    H_t = \begin{cases}
-        H^{women}(Q) & \text{if } K\leq 2 \\
-        0 & \text{else } 
-    \end{cases}
-\end{equation}
-
-Now I can write up the optimzation needed to be performed:
-
-\begin{equation}
-    \underset{\beta_K, \beta_L}{\argmax} = \frac{1}{N} \sum_{i=1}^{N}  \sum_{t } U_{t, i} 
-\end{equation}
-
-Where here $N$ denotes the number of simulated agents and $t$ denotes the timestep. $U_{t,i}$ is the utility of a given agent at a given timestep. In other words the optimization problem trying to be solved is:
-
-\fi

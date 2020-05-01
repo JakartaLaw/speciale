@@ -245,7 +245,7 @@ The full algorithm, which to large extend mirrors the algorithm for Deep Q-learn
  Initialize $k$ when to replace target weights $\tilde{\theta}$\;
  \ForEach {episode $\in \{1, 2, \cdots M \}$}{
   Initialize sequence with an initial state $s_1$. This is drawn randomly.\;
-    \For{$t \in \{1, 2, \cdots, T$}{
+    \For{$t \in \{1, 2, \cdots, T$ \}}{
     With probability $\epsilon$ select a random action $a_t$\;
     Otherwise select $A_t = \underset{a}{\argmax}Q^*(S_t, A_t ; \theta)$\;
     Execute action $A_t$ in environment and observe reward $R_t$ and the new state $S_{t+1}$\;
