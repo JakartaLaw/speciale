@@ -116,3 +116,6 @@ venv.bak/
 /literature
 
 *.DS_Store
+
+# Large files
+*data/extended_model_simulations.pkl
