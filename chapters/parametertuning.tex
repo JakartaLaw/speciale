@@ -1,4 +1,6 @@
-\section{Tuning of parameters}
+\section{Calibrating the parameters of the Mincer Equation}
+
+\iffalse
 
 løn parametre
 
@@ -7,7 +9,6 @@ Jeg har brugt lons50 til at finde trenden for lønniveauet betinget på alderen.
 
 Jeg vil bruge dette data til at tune parametrene som styrer løn-niveau processen i modellen.
 
-\iffalse
 \begin{table}[ht]
     \centering
     \input{tables/wage_variation_moments.tex}
@@ -60,9 +61,7 @@ Jeg vil bruge dette data til at tune parametrene som styrer løn-niveau processe
 \end{figure}
 \fi
 
-\subsection{Tuning the Wage process}
-
-To solve the model i will need some initial reasonable numbers for the parameters of the wage process. The wage process contains the following parameters: $(\eta_G, \eta_{G^2}, \delta, \alpha, \sigma_{\epsilon})$. As mentioned in the model specification in section \ref{sec:model1} i specify a wage process that follow the Mincer earnings equation, where i do not account for education (this is not part of the state space), and where the idiosyncratic wage path is added linearly to the wage. I assume that the parameters driving the wage process are the same for both men and women, and these can be by tuned independent of the entire model. This is primarily due to computational constraint, since tuning multiple parameters in the same time suffers from the \textit{curse of dimensionality}. Another reason is that the wage of the husband in the model is assumed perfectly deterministic, which imply I am not able to tune the parameters driving the wage path under the assumption these are the same for men and women. As mentioned in the model specification allowing for linearly added idiosyncratic wage path that follows a random walk, allows for tuning $(\eta_G, \eta_{G^2}, \delta, \alpha)$ that drives the age and sex specific expected wage level (referred to as \textit{wage path}), while tuning the variance at each point in time can be tuned by $\sigma_\epsilon$ (referred to as \textit{wage variance}). In other words the parameter tuning of the wage process is broken into two phases: First tuning age and sex specific expected wage level, second tuning the variance of the wages.
+To solve the model i will need some initial reasonable numbers for the parameters of the wage process. The wage process contains the following parameters: $(\eta_G, \eta_{G^2}, \delta, \alpha, \sigma_{\epsilon})$. As mentioned in the model specification in section \ref{sec:model1} i specify a wage process that follow the Mincer earnings equation, where i do not account for education, and where the idiosyncratic wage path is added linearly to the wage. I assume that the parameters driving the wage process are the same for both men and women, and these can be by tuned independent of the entire model. This is primarily due to computational constraint, since tuning multiple parameters in the same time suffers from the \textit{curse of dimensionality}. Another reason is that the wage of the husband in the model is assumed perfectly deterministic, which imply I am not able to tune the parameters driving the wage path under the assumption these are the same for men and women. As mentioned in the model specification allowing for linearly added idiosyncratic wage path that follows a random walk, allows for tuning $(\eta_G, \eta_{G^2}, \delta, \alpha)$ that drives the age and sex specific expected wage level (referred to as \textit{wage path}), while tuning the variance at each point in time can be tuned by $\sigma_\epsilon$ (referred to as \textit{wage variance}). In other words the parameter tuning of the wage process is broken into two phases: First tuning age and sex specific expected wage level, second tuning the variance of the wages. It is important to note that this is agent based modelling, where the agent is supplied with a predetermined course of action dependent on the state! 
 
 I tune the wage path by using a \textbf{LONS50}, a data set from Statistics Denmark (Danmarks Statistik Bank). This data set contains the wage trend for men and women at any given age. My objective is to minimize the squared difference between this wage path and a predicted wage path by simulating from the partial model with given parameters and taking the average wage path. Certain things should be noted about this partial model. The wage path is a function of human capital which is the choice variable of the model specified in section \ref{sec:model1}. This obviously makes it problematic to tune the parameters. I work around the problem by using the data set \textbf{LIGEF15} containing the number of worked hours for both men and women, which is supplied by Statistics Denmark. Since these numbers do not take into account people leaving the labour force temporarily - which we know women to do when giving birth. I model this the following way. I assume that women leave the work force for 1 year when giving birth to a child. I use the data set \textbf{FOD33} to get fertility rates of women. Again this data is supplied by Statistics Denmark. Formally this can summed up to:
 
@@ -106,12 +105,12 @@ Where equation \eqref{eq:wage_var_optimization} assummes $C_i \in C$, $j \in \{\
     \label{tab:wage_path_optimized_params}
 \end{table}
 
-Looking to the parameters, how does they correspond to other values found in the literature? First $\hat{\alpha} $ is the constant in the wage equation, since the Mincer equation is log transformed a reversal an interpretation requires the $\exp (\cdot)$ transformation. Assuming no human capital, $G=0$, yields $\exp (\hat{\alpha}) = \exp ( 4.609 ) = 100$. Or in other words, a totally inexperience worker would in this model have an hourly wage of 100 DKK (not far from the actual minimum wage). 
+Looking to the parameters, how does they correspond to other values found in the literature? First $\hat{\alpha} $ is the constant in the wage equation, 
+since the Mincer equation is log transformed a reversal an interpretation requires the $\exp (\cdot)$ transformation. 
+Assuming no human capital, $G=0$, yields $\exp (\hat{\alpha}) = \exp ( 4.609 ) \approx 100$. 
+Or in other words, a totally inexperience worker would in this model have an hourly wage of 100 DKK (not far from the actual minimum wage). 
+Looking to $\delta$ the human capital depreciation I find a value of appoximately $20 \%$ pr. year. Compared to other studies this does seem a bit on the high side, however not unreasonable. \textcite{kunze_timing_2002} finds that parental leave reduces wages for women with about $13$ to $18 \%$ pr year, while other work interruptions is about $2$  to $5 \%$ a year. \textcite{light_early-career_1995} finds values for human capital depreciation at about $13 \%$ a year. Considering the other parameters, they are harder to compare to other literature due to denomination in DKK. 
 
-Looking to $\delta$ the human capital depreciation I find a value of appoximately $20 \%$ pr. year. Compared to other studies (Kunze 2002 XXX) she find that parental leave reduces wages for women with about $13$ to $18 \%$ pr year, while other work interuptions is about $2$  to $5 \%$ a year. (Light & ureta 1995) finds values for human capital depreciation at about 13 $\%$ a year.
-
-
-KOMMENTER PÅ RESULTATERNE SAMMENLIGNET MED LITTERATUREN. 
 
 \begin{figure}[ht]
 
