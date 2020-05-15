@@ -1,9 +1,21 @@
 \section{Introduction} 
 
-% udkast
+\begin{itemize}
+    \item Motivation (Deep RL har vist sig ekstremt effektiv til at løse visse problemer)
+    \item Motivation for at løse økonomiske modeller med RL
+    \item Økonomisk problem. Opridsning -> hvorfor er det interessant. Samt data etc.
+    \item Implikation!
+    \item Opridsning af paper
+\end{itemize}
+
+The last 10 years have lead to numerous landmarks within the field of machine learning, among them especially deep reinforcement learning has been huge. In 2013 the company deep mind achieved super human performance in various Atari games, in 2017 the same company beat human in the board game Go, a feat which was not deemed possible in a foreseeable future, and as late as 2019 Deep Mind was able to play the game of Star Craft 2 on the same level as the best human players. Considering that these games all can be considered dynamical models, which are big theme in economics, these results might be a way for solving economic models.
+
+Dynamical structural models, in other words economic models where agents take sequential actions trying to optimize the cumulative utility from the these actions, are a very interesting class of economic models. Why? Because they conform to a set of properties economists like: They have a micro foundation; agents are utility maximizing and they model time allowing for agents to foresee the future, and act  in accordance to their expectations. Some dynamic models can be solved  analytically. This is true for the Ramsey model, however when the scope of the model grows even slightly different approaches is necessary. Dynamic Programming is usually the tool for these kinds of models, however dynamic programming does have its limitations. Solving a dynamic model using dynamic programming, the state space cannot be to large, otherwise the computation becomes infeasible. Leaving high dimensional dynamic models impossible to solve using contemporary techniques. Deep reinforcement learning allows for solving such models, however because these techniques are quite new, they have not been introduced into the field of economics. Deep RL, does not guarantee that the solution converges to the global maximum, but clearly shows that learning is possible in hard (high dimensional) environments.
+
+This paper uses the aforementioned techniques to investigate the effect of children of female labour supply. Inspired by the model specification of \textcite{francesconi_joint_2002} and \textcite{adda_career_2011} I construct a model that considers endogenous discreet female labour force participation when the household gets children. First a toy model is formulated, using three different solution methods I show that they converge to the same results. Next I use an extended model containing 15 states, solving the model using Double Deep Q Learning. The models considers a human capital component, a leisure component, and utility function that considers leisure and consumption. This larger state space when. Using aggregated data from Statistics Denmark I fit the model and tune the parameters.
+
+I show that you can get comparable performance using deep reinforcenment learning compared to using value function iteration solution methods, yielding a new way to solve more complex dynamic models. Simulating from the solved model, I find that the extended has multiple short comings compared to real data and other results such as the results of \textcite{kleven_children_2019} where female labour supply takes a dip when a child is born.  
 
 What is the effect of children on the labour supply? This paper tries to answer this question by presenting a dynamical structural model, where the utility trade off between consumption and leisure is affected by having children, assuming the causal relationship being:
 
-\begin{equation}
-    \text{Kids} \ra \text{Utility} \ra \text{Working hours}
-\end{equation}
+
