@@ -119,3 +119,4 @@ venv.bak/
 
 # Large files
 *data/extended_model_simulations.pkl
+report.html
