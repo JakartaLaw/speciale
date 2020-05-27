@@ -15,3 +15,7 @@ Run following command in terminal: `pipenv run python -m ipykernel install --use
 ### launching **Jupyter notebook**
 
 Still in the root folder run: `pipenv run jupyter notebook`
+
+### Using textidote for grammar and Spell Check
+
+Run: `java -jar ../textidote.jar --output html --read-all --check en_UK  main.tex > report.html`

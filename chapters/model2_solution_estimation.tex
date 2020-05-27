@@ -1,4 +1,4 @@
-\section{Solving and Estimating the extended Model}
+\section{Solving and Estimating the Extended Model}
 
 \subsection{Solution}
 
@@ -11,7 +11,7 @@ For this extended model I only use the Double Deep Q-Network agent, since it was
     \label{fig:training_extended}
 \end{figure}
 
-Looking to figure \ref{fig:training_extended} the agent clearly learns to navigate in the environment. After about 1000 episodes the agent seems to have learned to navigate the environment! The maximum score appears at around episode 1400, which is the weights used for estimation and simulations. The asymptotic training performance is about 177 compared to an initial score of approximately zero.
+Looking to figure \ref{fig:training_extended} the agent clearly learns to navigate in the environment. After about 1000 episodes the agent seems to have learned to navigate the environment! The maximum score appears at around episode 1400, which is the weights used for estimation and simulations. The asymptotic training performance is about 177 comparing to an initial score of approximately zero.
 
 \subsection{Estimation}
 
@@ -26,7 +26,7 @@ The second objective is formulated the same way as it was when first estimating 
 \begin{equation}
     \text{Objective 2} = \sum_{q=Q_{\min}}^{Q_{\min}} \lsp \mu_q  - \frac{1}{\sum_{i=1}^{N} \mathbf{1}\{H_{i,q} > 0\}}\sum_{i=1}^N (H_{i,q})\rsp^2
 \end{equation}
-The description of the objectives can be translated into a more formal formulation. The number of moments are $\text{\# moments}  = 1 + (Q_{\max} - Q_{\min}) = 1 + 60 - 18 = 43$. The weighing of these moments would usually be done by some weight matrix $W$ in an equation of the form: $[\hat{m} - \tilde{m}]^{\top} W^{-1} [\hat{m} - \tilde{m}]$, where $\tilde{m}$ is a vector of empirical moments and $\hat{m}$ is a vector of simulated moments allowing for the methods of moments estimation. The choosing of the weight matrix is application specific. \textcite{eisenhauer_estimation_2015} suggests the choice in that setting should be the inverse variance of the empirical moments $\tilde{m}_j$, on the diagonal of the weight matrix (zeros else), letting the $j$'th moment correspond to the $j$'th weight. This is however not possible in this application, due to the fact, that I only have access to aggregated data from statistics Denmark. Instead i manually chooses scales such that \textit{objective 1} is equally weighted to \textit{objective 2}. This first and foremost requires a scaling of the moments. And second of all this requires a re-weighing since there are 42 moments composing \textit{objective 2} and only a single moment composing \textit{objective 1}. Since the distance between the empirical and the simulated moment is squared, the scaling must be performed before the squaring. Finally, since the weight matrix is chosen as it is, a transformation can be performed such that instead of a matrix product it can be considered a sum: $\sum_{j = 1}
+The description of the objectives can be translated into a more formal formulation. The number of moments are $\text{\# moments}  = 1 + (Q_{\max} - Q_{\min}) = 1 + 60 - 18 = 43$. The weighing of these moments would usually be done by some weight matrix $W$ in an equation of the form: $[\hat{m} - \tilde{m}]^{\top} W^{-1} [\hat{m} - \tilde{m}]$, where $\tilde{m}$ is a vector of empirical moments and $\hat{m}$ is a vector of simulated moments allowing for the methods of moments estimation. The choosing of the weight matrix is application specific. \textcite{eisenhauer_estimation_2015} suggests the choice in that setting should be the inverse variance of the empirical moments $\tilde{m}_j$, on the diagonal of the weight matrix (zeros else), letting the $j$'th moment correspond to the $j$'th weight. This is however not possible in this application, due to the fact, that I only have access to aggregated data from statistics Denmark. Instead, I manually choose scales such that \textit{objective 1} is equally weighted to \textit{objective 2}. This first and foremost requires a scaling of the moments. And second of all this requires a re-weighing since there are 42 moments composing \textit{objective 2} and only a single moment composing \textit{objective 1}. Since the distance between the empirical and the simulated moment is squared, the scaling must be performed before the squaring. Finally, since the weight matrix is chosen as it is, a transformation can be performed such that instead of a matrix product it can be considered a sum: $\sum_{j = 1}
 ^{43} ( \hat{m}_j - \tilde{m}_j )^2$, becoming a mean squared error optimization problem. It is implied that $N$ agents is simulated conditional on a value of $\beta_L$. The objective function is:
 
 \begin{multline}

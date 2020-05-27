@@ -1,4 +1,4 @@
-\section{Soution methods}\label{sec:solution_methods}
+\section{Soution Methods}\label{sec:solution_methods}
 
 \subsection{Value Function Iteration}
 
@@ -54,7 +54,7 @@ For a given point in state space a prediction of the value function is computed 
   Estimate $\hat{Q}$ by training a Deep NN using samples from $X, Y$\;
   Decrease $\tilde{Age}$ be one\;
  }
- \caption{Deep Q-function iteration solution method}
+ \caption{Value Function Iteration Solution Method}
  \label{alg:dqi}
  \end{algorithm}
 
@@ -101,7 +101,7 @@ Figure \ref{fig:dqi_solution_beta2} and \ref{fig:dqi_solution_beta4} shows the r
 
 \subsection{Deep Q-learning}
 
-In this paper I implement\footnote{Originally I used my own implementation, however slow performance, caused me to use and modify an existing implementation allowing for a speed up of a factor of 10. The same is true for the Double Deep Q-learning algorithm.} the deep Q-learning algorithm used by \textcite{mnih_playing_2013} for beating Atari games as a way to solve model. A few modifications is made to the original implementation, due to the fact, the environment they were navigating only returned sensory data (an RGB representation of an image).  A part of their achievement was to transform these images into features that the value function accurately could map into scores of the game. Another difference is that this paper implements a scaling module of the variables for better performance.
+In this paper I implement\footnote{Originally I used my own implementation, however slow performance, caused me to use and modify an existing implementation allowing for a speed up of a factor of 10. The same is true for the Double Deep Q-learning algorithm. The original implementation can be found at \textcite{tabor_deep_2020}.} the deep Q-learning algorithm used by \textcite{mnih_playing_2013} for beating Atari games as a way to solve model. A few modifications is made to the original implementation, due to the fact, the environment they were navigating only returned sensory data (an RGB representation of an image).  A part of their achievement was to transform these images into features that the value function accurately could map into scores of the game. Another difference is that this paper implements a scaling module of the variables for better performance.
 
 Just as described in section \ref{sec:rl_theory} the algorithm tries to maximize the Bellman equation. However now the value-function is estimated using Deep neural network as a function approximator. Mathematically this can be described as finding:
 

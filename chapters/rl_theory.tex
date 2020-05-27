@@ -1,7 +1,7 @@
 \section{Reinforcement Learning}
 \label{sec:rl_theory}
 
-\subsection{The Environment/Agent interface}
+\subsection{The Environment/Agent Interface}
 
 In the real world learning happens by trial and error. Reinforcement learning is an attempt to formalize this study of "learning by interaction". The problem of learning by trial and error has a natural formulation by the environment/agent interface, which is graphically represented in figure \ref{fig:agent_enviroment_interface}. Note, this entire section draws heavily from the book Reinforcement Learning by \textcite{sutton_reinforcement_2018}, both with regards to naming conventions and notation.
 
@@ -44,7 +44,7 @@ The formulation in \eqref{eq:cum_rewards} can be problematic with continuing tas
 
 with $\gamma$ being the discount rate, yielding a geometric series, that is known to converge, if $R_k$ is bounded.
 
-\subsection{Value function, Q-function, Policy function and the Bellman Equation}
+\subsection{Value Function, Q-Function, Policy Function and the Bellman Equation}
 
 The value function represents the expected discounted cumulative returns from following a policy, $\pi$. The value function can be said to approximate the value of a strategy:
 
@@ -134,7 +134,7 @@ The second approach \textit{value function iteration} computes a max over the va
 only when it is greedy with respect to the current value function.
 Thus, both processes stabilize only when a policy has been found that is greedy with respect to its own evaluation function. This implies that the Bellman optimality equation holds, and thus that the policy and the value function are optimal.
  
- \subsection{Overview of other Reinforcement learning techniques}
+ \subsection{Overview of Reinforcement Learning Techniques}
  
 Two different reinforcement learning methods will be presented in section \ref{sec:solution_methods}. Here I present some basic information that makes the reader able to digest the material presented. First it is important to address why not only use dynamic programming. Dynamic programming requires that a perfect model of the environment is accessible. This is due to the fact, that when calculating the expected value function for each action, the probability distribution of the reward and the next state, needs to formulated in an explicit form. The other techniques presented here does not have the same requirement. Secondly DP methods require that the size of the state space must be limited. The implementations presented later does not have the same requirements, allowing for approximating the value function and/or the policy function. Below i explain two different methods of learning \textit{Monte Carlo Methods} and \textit{Temporal Difference Learning} these being the two foundations of the reinforcement learning methods presented later. It is useful to distinguish between control and prediction. Prediction can be considered the step of estimating the value function, whereas control relates to how to approximate the optimal policies. It is also useful to distinguish off-policy vs on-policy methods. \parencite{sutton_reinforcement_2018} describes the difference as: On-policy methods attempt to evaluate or improve the policy that is used to make decisions, whereas off-policy methods evaluate or improve a policy different from that used to generate the data.
 

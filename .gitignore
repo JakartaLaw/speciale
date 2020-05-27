@@ -113,6 +113,15 @@ venv.bak/
 *.ilg
 *.ind
 
+
+# other latex
+*.bbl
+*.bcf
+*.blg
+*.lof
+*.lot
+*.run.xml
+
 /literature
 
 *.DS_Store

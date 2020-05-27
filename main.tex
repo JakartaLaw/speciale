@@ -18,21 +18,24 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
+% header
+\usepackage{fancyhdr}
+
 % bibliography
 \usepackage[backend=biber, citestyle=authoryear]{biblatex}
 \addbibresource{speciale.bib}
 
 % functions
 
-\newcommand{\quickwordcount}[1]{%
-  \immediate\write18{texcount -1 -sum -merge -q #1.tex output.bbl > #1-words.sum }%
-  \input{#1-words.sum}%
-}
+%\newcommand{\quickwordcount}[1]{%
+%  \immediate\write18{texcount -1 -sum -merge -q #1.tex output.bbl > #1-words.sum }%
+%  \input{#1-words.sum}%
+%}
 
-\newcommand{\quickcharcount}[1]{%
-  \immediate\write18{texcount -1 -sum -merge -char -q #1.tex output.bbl > #1-chars.sum }%
-  \input{#1-chars.sum}(not including spaces)%
-}
+%\newcommand{\quickcharcount}[1]{%
+%  \immediate\write18{texcount -1 -sum -merge -char -q #1.tex output.bbl > #1-chars.sum }%
+%  \input{#1-chars.sum}(not including spaces)%
+%}
 
 
 %%%% INDEPDENT SIGN %%%%
@@ -96,13 +99,24 @@
 \renewcommand{\baselinestretch}{1.5}
 \usepackage[margin=1.05in]{geometry}
 
+% header and footer
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\rhead{Jeppe Søndergaard Johansen}
+\lfoot{\leftmark}
+\rfoot{Page \thepage}
+
 
 % About Data
-\title{\input{name}}
+\title{Deep Reinforcement Learning \& Dynamic Models}
 \author{Jeppe Søndergaard Johansen (pcv439)}
 \date{May 2020}
 
 \makeindex
+
+
 
 
 \begin{document}
