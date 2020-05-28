@@ -1,6 +1,6 @@
 \section{Model Specification}\label{sec:model1}
 
-This paper presents a discrete time, finite horizon, discrete choice model of female labour supply. More specifically I model a household consisting of wife, husband and a zero or more children. The model attempts to address what the effect of children is on the labour supply of women. The model consists of 3 components: 1) An income and human capital component, 2) A fertility process, 3) A leisure and utility component. I model the households from age $Q_{min}=18$ to the terminal age $Q_{max} = 60$. Here it should be noted, that I make the simplifying assumption that the husband and wife has the same age and that the couple is married from age $Q=18$. The age evolves in a deterministic fashion, i.e. the household grows one year older for each step in the model:
+This paper presents a discrete time, finite horizon, discrete choice model of female labour supply. More specifically I model a household consisting of wife, husband and zero or more children. The model attempts to address what the effect of children is on the labour supply of women. The model consists of 3 components: 1) An income and human capital component, 2) A fertility process, 3) A leisure and utility component. I model the households from age $Q_{min}=18$ to the terminal age $Q_{max} = 60$. Here it should be noted, that I make the simplifying assumption that the husband and wife has the same age and that the couple is married from age $Q=18$. The age evolves in a deterministic fashion, i.e. the household grows one year older for each step in the model:
 
 \begin{equation}
     Q_{t+1} = Q_t + 1
@@ -8,7 +8,7 @@ This paper presents a discrete time, finite horizon, discrete choice model of fe
 
 For each time step in the model, the agent has to  choose how many hours the woman of the household should supply on a weekly basis. The choice is discreet, and consists of four action values: $H_t \in \{0, 25, 37, 45 \}$. The labour supply of the man in the households is not a choice variable and is therefore considered an exogenous variable.
 
-The households has two income streams, the husband, which is perfectly deterministic, and the wife. The income process of the wife consists of an idiosyncratic component $Z_t$, which follows a random walk:
+The households has two income streams, the husband's earning, which is perfectly deterministic, and the wife's earnings. The income process of the wife consists of an idiosyncratic component $Z_t$, which follows a random walk:
 
 \begin{equation}
     Z_{t+1} = Z_t + \epsilon_t, \qquad \epsilon_t \sim \ndist (0, \sigma_\epsilon)
@@ -20,7 +20,7 @@ This allows for agents to do display heterogeneity owing to the fact that some u
     \log \tilde{W}_t = \alpha + \eta_G G_t + \eta_{G^2} G_t^2
 \end{equation}
 
-A couple of things to note. In the original formulation by \textcite{lemieux_mincer_2006}, the education level is also included. However, due to the lack of availability of such data I am not able to condition on this. It should also be noted, that the state $G_t$ represents the human capital accumulated of the woman in the household. Finally this equation governs only the wage rage of the women (not of the husband), for whom the wage rate and the supplied number of hours is considered exogenous. The exogenous wage rate of the husband is found using the data set \textbf{LONS50} from Statistics Denmark. And the number of supplied hours for the husband is found using the data set \textbf{LIGEF15}, again supplied by Statistics Denmark. The wage rate of the women will be capped at the minimum wage if the sum of the two components $\tilde{W}_t + Z_t$ is not above the the minimum wage $W_{min} = 120$: 
+A couple of things to note. In the original formulation by \textcite{lemieux_mincer_2006}, the education level is also included. However, due to the lack of availability of such data I am not able to condition on this. It should also be noted, that the state $G_t$ represents the human capital accumulated of the woman in the household. Finally this equation governs only the wage rate of the women (not of the husband), for whom the wage rate and the supplied number of hours is considered exogenous. The exogenous wage rate of the husband is found using the data set \textbf{LONS50} from Statistics Denmark. And the number of supplied hours for the husband is found using the data set \textbf{LIGEF15}, again supplied by Statistics Denmark. The wage rate of the women will be capped at the minimum wage if the sum of the two components $\tilde{W}_t + Z_t$ is not above the the minimum wage $W_{min} = 120$: 
 
 \begin{equation}
     W_t = \max ( W_{min}, \tilde{W} + Z_t)
@@ -38,7 +38,7 @@ Where 37 being the standard number of hours worked in Denmark. The total income 
     Y_t = 46 \cdot W_t \cdot H_t + f^M(Q_t)
 \end{equation}
 
-Where $f^M$ represents the income from the husband as a function of age. And $46 \cdot W_t \cdot H_t$ is the number of supplied hours pr. week, $H_t$, times the number of weeks, 46, in a year for the average person on the labour market\footnote{Assuming 6 weeks of holiday.} times the wage rate, $W_t$. The income process is a function of the number of supplied working hours, $H_t$, and the states $(Q_t, Z_t, G_t)$. The parameters $\delta, \sigma_\epsilon, \eta_G, \eta_{G^{2}}$ will be calibrated in section \ref{sec:parameter_calibration}.
+Where $f^M$ represents the income from the husband as a function of age. And $46 \cdot W_t \cdot H_t$ is the number of supplied hours pr. week, $H_t$, times the number of weeks, 46, in a year for the average person on the labour market\footnote{This number comes from an assumption of 6 weeks of holiday.} times the wage rate, $W_t$. The income process is a function of the number of supplied working hours, $H_t$, and the states $(Q_t, Z_t, G_t)$. The parameters $\delta, \sigma_\epsilon, \eta_G, \eta_{G^{2}}$ will be calibrated in section \ref{sec:parameter_calibration}.
 
 The second component of the model is the fertility process. The fertility is assumed to be exogenous depending on the age of the woman. This is summed up in the equation below:
 
@@ -48,13 +48,13 @@ The second component of the model is the fertility process. The fertility is ass
 
 $K_t$ is the number of children in the household. The household is assumed to start with $K_t = 0$ at age $Q=18$. At each step with probability $p_\psi(Q_t)$ the wife gives birth to a child. Allowing for the accumulation of children. The number of children is capped at a maximum of 5 in the model. The probability $p_\psi(Q_t)$ is modelled using data from Statistics Denmark using the data set \textbf{FOD33}. The number of children $K_t$ is part of the state space. 
 
-The third component of the model is the utility and leisure component. The agent is assumed to get utility from leisure, $L_t$, and consumption, $Y_t$. Following \textcite{francesconi_joint_2002} the households are assumed to face a budget constraint such that all income of period $t$ must be consumed period $t$.The utility $U_t$ is given by:
+The third component of the model is the utility and leisure component. The agent is assumed to get utility from leisure, $L_t$, and consumption. Following \textcite{francesconi_joint_2002} the households are assumed to face a budget constraint such that all income of period $t$ must be consumed period $t$, which imply that consumption is equal to the household's total income, $Y_t$. The utility $U_t$ is given by:
 
 \begin{equation}
     U_t = \beta_L \ln(L_t + 1) + \beta_Y \ln(Y_t + 1)
 \end{equation}
 
-Following the formulation of \textcite{adda_career_2011}, dividing the utility into sub-utility functions, where each sub-utility function allows for curvature by specifying a constant relative risk-averse (CRRA) function for each sub-utility. Assuming the special case of $\ln(\cdot)$. The parameters $\beta_L, \beta_Y$ is the individual weighing of the different sub-utilities. Note that for identification I will restrict $\beta_Y= 1$. The total number of hours leisure the agent receives in a year follows: 
+Following the formulation of \textcite{adda_career_2011}, dividing the utility into sub-utility functions, where each sub-utility function allows for curvature by specifying a constant relative risk-averse (CRRA) function for each sub-utility assuming the special case of $\ln(\cdot)$. The parameters $\beta_L, \beta_Y$ is the individual weighing of the different sub-utilities. Note, that for identification I will restrict $\beta_Y= 1$. The total number of hours leisure the agent receives in a year follows: 
 
 \begin{equation}
     L_t = 46 \lp \lp 24 \cdot 7 \rp - \omega \cdot K_t - H_t \rp
@@ -69,7 +69,7 @@ Summarizing the model; the model contains 4 states: $(G)$ human capital, $(Z)$ t
 \end{equation}
 
 \begin{equation}
-    \textbf{Action space: }\actionspace  = \{0, 15, 25, 37, 45\} 
+    \textbf{Action space: }\actionspace  = \{0, 25, 37, 45\} 
 \end{equation}
 
 \begin{equation}

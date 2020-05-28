@@ -1,6 +1,6 @@
 \section{An Extended Model}
 
-After asserting that a deep reinforcement learning agent can navigate the environment, the model is extended to address the issues with the simple model. The first issue that should be addressed is that women should not permanently withdraw from the labour force. Second the log-function used for the sub-utilities caps the utility very hard, which implies that very small perturbations of $\beta_L$ makes the agent substitute into one of the extremes. The agent end up working either 45 hours exclusively or working 0 hours exclusively, de facto making leisure and consumption perfect substitutes. The agent should ideally be more balanced, implying the functional form of the sub-utilities should have a steeper curvature. This leads to a new expression of the utility function:
+After asserting that a deep reinforcement learning agent can navigate the environment, the model is extended to address the issues with the simple model. The first issue that should be addressed is that women should not permanently withdraw from the labour force. Secondly, the log-function used for the sub-utilities caps the utility very hard, which implies that very small perturbations of $\beta_L$ makes the agent substitute into one of the extremes. The agent end up working either 45 hours exclusively or working 0 hours exclusively, de facto making leisure and consumption perfect substitutes. The agent should ideally be more balanced, implying the functional form of the sub-utilities should have a steeper curvature. This leads to a new expression of the utility function:
 
 \begin{equation}
     U_t = \beta_L L_{t}^\zeta + \beta_Y Y_t^{\zeta}
@@ -29,7 +29,7 @@ The age vector is defined as:
 
 The formulation ensures the age of a child increments if and only if the child is born.
 
-Finally the leisure component of the model needs to be adjusted to take into account the number of hours used pr. child. Let $J$ denote the number of hours used on children. Children below age 3 takes 10 hours pr week, children in the age 3 up to age 15 takes 3.5 hours pr. week, and children above takes 0 hours of leisure pr. week for women,  using the numbers found by \textcite{ekert-jaffe_time_2015}. 
+Finally the leisure component of the model needs to be adjusted to take into account the number of hours used per child. Let $J$ denote the number of hours used on children. Children below age 3 takes 10 hours per week, children in the age 3 up to age 15 takes 3.5 hours per week, and children above does not reduce the leisure time of women,  using the numbers found by \textcite{ekert-jaffe_time_2015}. 
 
 \begin{equation}
     J_t = \sum_{i=1}^4 \begin{cases}
@@ -63,7 +63,7 @@ Another thing to address is, that empirically women tend to work less when they 
     E_{t+1} = E_{t} \cdot \iota_t, \qquad \iota_t \mid Q_t \sim  Binomial(p_{\iota}(Q_t))
 \end{equation}
 
-So in each period with some probability $E^{prob}_t \equiv p_{\iota}(Q_T)$ the women will end full time education. Both $E$ and $E^{prob}_t$ is part of the state space. Since women do full time education, I assume time used is 37 hours pr. week.
+So in each period with some probability $E^{prob}_t \equiv p_{\iota}(Q_T)$ the women will end full time education. Both $E$ and $E^{prob}_t$ is part of the state space. Since women do full time education, I assume time used is 37 hours per week.
 
 It is assumed for simplicity that human capital accumulation does not depreciate or accumulate when the agent is under full time education:
 
@@ -76,20 +76,20 @@ It is assumed for simplicity that human capital accumulation does not depreciate
 \end{equation}
 
 
-Finally note that the utility is calculated pr. week basis instead of on an annual basis. This is again done, such that the sub utilities, do not squeeze the values too hard, as was the case in model 1, making estimating of the model very hard, due to small perturbations of $\beta_L$ having too large effect. Compared to the original model $f^M(Q_t)$ now represents the number total income pr. week of the husband rather than the annual total income.
+Finally note that the utility is calculated on a weekly basis instead of on an annual basis. This is again done, such that the sub utilities, do not squeeze the values too hard, as was the case in model 1, making estimating of the model very hard, due to small perturbations of $\beta_L$ having too large effect. Compared to the original model $f^M(Q_t)$ now represents the total income per week of the husband rather than the annual total income.
 
 \begin{equation}
     L_t = 24 \cdot 7 - H_t - J_t - E_t \cdot 37
 \end{equation}
 
-In Denmark education is coupled with a transfer from the state. This transfer is added as well, such that the household will a transfer of $tr = \frac{6000 DKK \times 12}{52} \approx 1400 DKK$ each week from the government, while the women is studying. This ratio is approximately doubled if the women gets a child during the education \parencite{noauthor_satser_nodate-1}. The total income of the household is equal to:
+In Denmark education is coupled with a transfer from the state. This transfer is added as well, such that the household will receive a transfer of $tr = \frac{6000 DKK \times 12}{52} \approx 1400 DKK$ each week from the government, while the women is studying. This ratio is approximately doubled if the women gets a child during the education \parencite{noauthor_satser_nodate-1}. The total income of the household is equal to:
 
 \begin{equation}
     Y_t = H_t \cdot W_t + f^M(Q_t) + E_t (tr + \mathbf{1} \{ K_t > 0 \} \cdot tr)  
 \end{equation}
 
 
-Summarizing the model; using a lot of the framework from the simple model a couple of extensions is made. The state space is now of 14 dimensions containing $(Q)$ age, $(G)$ human capital, $(Z)$ idiosyncratic wage path, $(K)$ the number of children in at time $t$ in the household, a vector of size four $(B)$ corresponding to the number of children the household contain, a vector of size four $(C)$ containing the age of the individual children, a dummy $(E)$ that indicates if the women is under education, and lastly $(E^{prob})$ a number between 0 and 1 that indicates the probability of being enrolled in full time education next period. The action space is slightly tweaked to contain $\{ 0, 15, 25, 37\}$ representing the discreet choices of hours the woman can choose to work. This formulation is closer to that of \textcite{francesconi_joint_2002}, where he only considers the choices \{nonwork, part-time, full-time\}. In contrast with \textcite{francesconi_joint_2002} this model distinguishes between two types of part-time work; 15 and 25 hours a week. The model specification is:
+Summarizing the model; using a lot of the framework from the simple model a couple of extensions is made. The state space is now of 14 dimensions containing $(Q)$ age, $(G)$ human capital, $(Z)$ idiosyncratic wage path, $(K)$ the number of children in at time $t$ in the household, a vector of size four $(B)$ corresponding to the number of children the household contain, a vector of size four $(C)$ containing the age of the individual children, a dummy $(E)$ that indicates if the women is under education, and lastly $(E^{prob})$ a number between 0 and 1 that indicates the probability of being enrolled in full time education next period. The action space is slightly tweaked to contain $\{ 0, 15, 25, 37\}$ representing the discreet choices of hours the woman can choose to work. This formulation is closer to that of \textcite{francesconi_joint_2002}, where he only considers the choices: \textit{no work}, \textit{part-time}, \textit{full-time}. In contrast with \textcite{francesconi_joint_2002} this model distinguishes between two types of part-time work; 15 and 25 hours a week. The model specification is:
 
 \begin{equation}
     \textbf{State space: }\statespace = \R^2 \times \{0, 1, 2, 3, 4\} \times \{18, 19, \cdots , 60\} \times \{0, 1\}^4 \times \{0, 1, \cdots, 18\}^4 \times \{0,1\} \times [0, 1]
@@ -99,7 +99,7 @@ Summarizing the model; using a lot of the framework from the simple model a coup
     \textbf{Action space: }\actionspace = \{0, 15, 25, 37\}
 \end{equation}
 
-Additionally the model contains the following parameters: $\alpha=4.609, \eta_G = 0.164, \eta_{G^{2}}=0.015, \delta, \sigma_\epsilon = 15.11, \beta_L, \beta_Y = 1, W_{min} = 120, tr = 1600, \zeta=0.5$, using the values of the Mincer equation from the parameter calibration performed earlier! A recursive formulation of the model is presented below:
+Additionally the model contains the following parameters: $\alpha=4.609, \eta_G = 0.164, \eta_{G^{2}}=0.015, \delta=0.209, \sigma_\epsilon = 15.11, \beta_L, \beta_Y = 1, W_{min} = 120, tr = 1600, \zeta=0.5$, using the values of the Mincer equation from the parameter calibration performed earlier! A recursive formulation of the model is presented below:
 
 \begin{align}
     U_t(L_t, Y_t) &= \beta_L L_t^{\zeta} + \beta_Y Y_t^{\zeta}\\
