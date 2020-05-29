@@ -12,7 +12,7 @@ The fertility process should also be extended. I now assume that each household 
     K_{t+1} = K_t+ \psi_t, \qquad \psi_t \mid Q_t \sim Bernoulli (p_\psi(Q_t))
 \end{equation}
 
-I let $B$ be a vector of size 4 equal to the maximum number of children. Furthermore I let the vector $C$ denote the individual age of the children also of size 4. This implies that for index $i$ of vector $B$ corresponds to the $k$'th child, index $i$ of vector $C$ implies the same child's corresponding age.
+I let $B$ be a vector of size 4 equal to the maximum number of children. Furthermore, I let the vector $C$ denote the individual age of the children also of size 4. This implies that for index $i$ of vector $B$ corresponds to the $k$'th child, index $i$ of vector $C$ implies the same child's corresponding age.
 
 \begin{equation}
     B_t[i]  = \begin{cases}
@@ -29,7 +29,7 @@ The age vector is defined as:
 
 The formulation ensures the age of a child increments if and only if the child is born.
 
-Finally the leisure component of the model needs to be adjusted to take into account the number of hours used per child. Let $J$ denote the number of hours used on children. Children below age 3 takes 10 hours per week, children in the age 3 up to age 15 takes 3.5 hours per week, and children above does not reduce the leisure time of women,  using the numbers found by \textcite{ekert-jaffe_time_2015}. 
+Finally, the leisure component of the model needs to be adjusted to take into account the number of hours used per child. Let $J$ denote the number of hours used on children. Children below age 3 takes 10 hours per week, children in the age 3 up to age 15 takes 3.5 hours per week, and children above does not reduce the leisure time of women,  using the numbers found by \textcite{ekert-jaffe_time_2015}. 
 
 \begin{equation}
     J_t = \sum_{i=1}^4 \begin{cases}
@@ -76,7 +76,7 @@ It is assumed for simplicity that human capital accumulation does not depreciate
 \end{equation}
 
 
-Finally note that the utility is calculated on a weekly basis instead of on an annual basis. This is again done, such that the sub utilities, do not squeeze the values too hard, as was the case in model 1, making estimating of the model very hard, due to small perturbations of $\beta_L$ having too large effect. Compared to the original model $f^M(Q_t)$ now represents the total income per week of the husband rather than the annual total income.
+Finally, note that the utility is calculated on a weekly basis instead of on an annual basis. This is again done, such that the sub utilities, do not squeeze the values too hard, as was the case in model 1, making estimating of the model very hard, due to small perturbations of $\beta_L$ having too large effect. Compared to the original model $f^M(Q_t)$ now represents the total income per week of the husband rather than the annual total income.
 
 \begin{equation}
     L_t = 24 \cdot 7 - H_t - J_t - E_t \cdot 37
@@ -99,7 +99,7 @@ Summarizing the model; using a lot of the framework from the simple model a coup
     \textbf{Action space: }\actionspace = \{0, 15, 25, 37\}
 \end{equation}
 
-Additionally the model contains the following parameters: $\alpha=4.609, \eta_G = 0.164, \eta_{G^{2}}=0.015, \delta=0.209, \sigma_\epsilon = 15.11, \beta_L, \beta_Y = 1, W_{min} = 120, tr = 1600, \zeta=0.5$, using the values of the Mincer equation from the parameter calibration performed earlier! A recursive formulation of the model is presented below:
+Additionally, the model contains the following parameters: $\alpha=4.609, \eta_G = 0.164, \eta_{G^{2}}=0.015, \delta=0.209, \sigma_\epsilon = 15.11, \beta_L, \beta_Y = 1, W_{min} = 120, tr = 1600, \zeta=0.5$, using the values of the Mincer equation from the parameter calibration performed earlier! A recursive formulation of the model is presented below:
 
 \begin{align}
     U_t(L_t, Y_t) &= \beta_L L_t^{\zeta} + \beta_Y Y_t^{\zeta}\\
